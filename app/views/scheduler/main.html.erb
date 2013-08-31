@@ -1,0 +1,20 @@
+<div ontouchend="touchEnd(event)">
+<h2><%= @name %></h2>
+
+<% for row in 0..@rows %>
+<div style="font-size:0px;vertical-align:top;">
+<% for col in 0..@cols %>
+
+<div id="cell:<%= row.to_s+","+col.to_s %>" data_col="<%= col %>" data_row="<%= row %>" ontouchmove="touchMove(event)" ontouchstart="touchStart(event)" style="vertical-align: top; display: inline-block; zoom: 1; width: <%= @cellWidth %>px; height: <%= @cellHeight %>px; font-size: 0px; border-left-width: 1px; border-color: black; border-left-style: solid; background-color: red; border-top-width: 1px; border-top-style: solid; background-position: initial initial; background-repeat: initial initial;">
+</div>
+
+<% end %>
+</div>
+<% end %>
+
+</div>
+<script>
+window.App = window.App || {};
+App.width = <%= @cellWidth %>;
+App.height = <%= @cellHeight %>;
+</script>
