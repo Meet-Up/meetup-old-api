@@ -1,5 +1,9 @@
 MeetupApi::Application.routes.draw do
 
+  match 'auth/get_token', to: 'auth#get_token', via: [:post]
+
+  get "auth/confirm_user"
+
 # The priority is based upon order of creation:
   # first created -> highest priority.
 
