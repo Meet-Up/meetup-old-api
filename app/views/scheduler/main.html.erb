@@ -1,5 +1,9 @@
-<div id="rootDiv" ontouchend="touchEnd(event)">
 <h2><%= @name %></h2>
+<div class="row">
+	<div class="col-xs-1"></div>
+	<div class="col-xs-10 text-center">
+<div id="rootDiv" ontouchend="touchEnd(event)">
+
 <% for row in 0..@rows %>
 <div style="font-size:0px;vertical-align:top;">
 <% for col in 0..@cols %>
@@ -10,7 +14,11 @@
 <% end %>
 </div>
 <% end %>
-
+</div>
+</div>
+<div class = "col-xs-1">
+	
+</div>
 </div>
 <script>
 window.App = window.App || {};
