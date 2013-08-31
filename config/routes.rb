@@ -1,5 +1,13 @@
 MeetupApi::Application.routes.draw do
 
+  get "possible_dates/create"
+
+  get "possible_dates/show"
+
+  get "event/create"
+
+  get "event/show"
+
   match 'auth/get_token', to: 'auth#get_token', via: [:post]
 
   get "auth/confirm_user"
@@ -17,6 +25,8 @@ MeetupApi::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  resources :events
+  resources :possible_dates
 
   # Sample resource route with options:
   #   resources :products do
