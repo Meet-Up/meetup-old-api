@@ -11,13 +11,20 @@ function touchStart( e ) {
   var elemId = e.currentTarget.id;
   // var box = document.getElementById(elemId); 
   coords = [];
+  var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
+  coords.push(saveVar);
+  
   if ($("#"+elemId ).attr("data_isSelected") == 1)
   {
     isSelectingCells = false;
+    $("#"+elemId).attr("data_isSelected",0);
+    $("#"+elemId).css("background-color", unselectedColor);
   } 
   else
   {
     isSelectingCells = true;
+    $("#"+elemId).attr("data_isSelected",1);
+    $("#"+elemId).css("background-color", selectedColor);
   }
   //console.log("Start Touch - screenX:"+ e.targetTouches[0].pageX + ", screenY:"+e.targetTouches[0].pageY);
   startTouchX = e.targetTouches[0].pageX;
