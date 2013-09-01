@@ -8,6 +8,6 @@ class Event < ActiveRecord::Base
 	accepts_nested_attributes_for :event_dates
 
 	def as_json(option={})
-		super(:include => [:event_dates])
+		super(:include => [:event_dates, creator: {only: :username, methods: :username}])
 	end
 end
