@@ -5,30 +5,32 @@ class SchedulerController < ApplicationController
 
   def respondToToken
 
-	  #e = EventToken.where(:token => params[:token]).last
+	  if  params[:token].nil? 
+		  @dates=IDEALDATES
+		  @s_time=IDEALSTARTTIME
+		  @e_time=IDEALENDTIME
+		  @name = "大江戸ハッカソン打ち上げパーティー"
+		  @description="大江戸ハッカソンの打ち上げです"
+	  else
+		  e = EventToken.where(:token =>params[:token]).last
+		  dates_tmp = []
+		  time_tmp = []
+		  e.event.event_dates.each { |d|
+			  date_tmp = Time.at(d.start)
+			  dates_tmp.push(date_tmp.strftime("%m/%d"))
+			  time_tmp.push(date_tmp.strftime("%H"))
 
-	  #dates_tmp = []
-	  #time_tmp = []
-	  #e.event.event_dates.each { |d|
-		  #date_tmp = Time.at(d.start)
-		  #dates_tmp.push(date_tmp.strftime("%m/%d"))
-		  #time_tmp.push(date_tmp.strftime("%H"))
+			  date_tmp = Time.at(d.end)
+			  dates_tmp.push(date_tmp.strftime("%m/%d"))
+			  time_tmp.push(date_tmp.strftime("%H"))
+		  }
 
-		  #date_tmp = Time.at(d.end)
-		  #dates_tmp.push(date_tmp.strftime("%m/%d"))
-		  #time_tmp.push(date_tmp.strftime("%H"))
-	  #}
-
-	  #@dates=dates_tmp.uniq.sort
-	  #@s_time=time_tmp.min.to_i
-	  #@e_time=time_tmp.max.to_i
-	  #@name = e.event.name
-	  #@description=e.event.description
-	@dates=IDEALDATES
-	@s_time=IDEALSTARTTIME
-	@e_time=IDEALENDTIME
-	@name = "大江戸ハッカソン打ち上げパーティー"
-	@description="hoge"
+		  @dates=dates_tmp.uniq.sort
+		  @s_time=time_tmp.min.to_i
+		  @e_time=time_tmp.max.to_i
+		  @name = e.event.name
+		  @description=e.event.description
+	  end
 
 
 	  @rows = (@e_time - @s_time) * 2 
