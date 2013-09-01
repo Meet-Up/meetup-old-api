@@ -7,6 +7,15 @@ var startTouchY = 0;
 var isSelectingCells = true;
 var coords = [];
 
+// Connecting to websocket
+var dispatcher = new WebSocketRails('localhost:3000/websocket');
+var channel = dispatcher.subscribe('newTimes');
+channel.bind('update', function(post) {
+  var newUpdate = $.parseJSON(post);
+  console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.cols+', Data:'+newUpdate.data);
+});
+
+
 function touchStart( e ) {  
   var elemId = e.currentTarget.id;
   // var box = document.getElementById(elemId); 

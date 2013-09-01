@@ -34,4 +34,10 @@ MeetupApi::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  config.allow_concurrency = true
+  config.middleware.delete Rack::Lock
+  
+  config.cache_classes = false
+  config.eager_load = false
 end
