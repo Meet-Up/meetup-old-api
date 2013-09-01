@@ -1,9 +1,18 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+<<<<<<< HEAD
   token: MyString
   name: MyText
 
 two:
   token: MyString
   name: MyText
+=======
+  email: MyString
+  token: MyString
+
+two:
+  email: MyString
+  token: MyString
+>>>>>>> 256eb5a93bf1a1991c3265cb2309cfb67a68d6ff
