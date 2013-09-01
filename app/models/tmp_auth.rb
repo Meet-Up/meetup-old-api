@@ -5,6 +5,18 @@ class TmpAuth < ActiveRecord::Base
 
   TOKEN_LENGTH = 20
 
+  def create_user
+    user = User.find_or_initialize_by_email(self.email)
+    user.refresh_token
+    self.destroy
+    user.save
+    user
+  end
+
+  def as_json(options={})
+    super(except: [:pin])
+  end
+
   private
   def set_token
     self.token = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
