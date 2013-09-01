@@ -40,7 +40,7 @@
 <div style="font-size:0px;vertical-align:top">
 <% for col in 0..@cols %>
 
-<div id="cell<%= row.to_s+col.to_s %>" data_col="<%= col %>" data_row="<%= row %>" data_isSelected="0" ontouchmove="touchMove(event)" ontouchstart="touchStart(event)" style="vertical-align: top; display: inline-block; zoom: 1; width: <%= @cellWidth %>px; height: <%= @cellHeight %>px; font-size: 0px; border-left-width: 1px; border-color: white; border-left-style: solid; background-color: <%= @unselectedColor %>; border-top-width: 1px; border-top-style: solid; background-position: initial initial; background-repeat: initial initial;">
+<div id="cell<%= row.to_s+col.to_s %>" data_col="<%= @dates[col]  %>" data_row="<%= row + @s_time*2 %>" data_isSelected="0" ontouchmove="touchMove(event)" ontouchstart="touchStart(event)" style="vertical-align: top; display: inline-block; zoom: 1; width: <%= @cellWidth %>px; height: <%= @cellHeight %>px; font-size: 0px; border-left-width: 1px; border-color: white; border-left-style: solid; background-color: <%= @unselectedColor %>; border-top-width: 1px; border-top-style: solid; background-position: initial initial; background-repeat: initial initial;">
 </div>
 
 <% end %>
