@@ -1,20 +1,29 @@
-<div ontouchend="touchEnd(event)">
 <h2><%= @name %></h2>
+<div class="row">
+	<div class="col-xs-1"></div>
+	<div class="col-xs-10 text-center">
+<div id="rootDiv" ontouchend="touchEnd(event)">
 
 <% for row in 0..@rows %>
 <div style="font-size:0px;vertical-align:top;">
 <% for col in 0..@cols %>
 
-<div id="cell:<%= row.to_s+","+col.to_s %>" data_col="<%= col %>" data_row="<%= row %>" ontouchmove="touchMove(event)" ontouchstart="touchStart(event)" style="vertical-align: top; display: inline-block; zoom: 1; width: <%= @cellWidth %>px; height: <%= @cellHeight %>px; font-size: 0px; border-left-width: 1px; border-color: black; border-left-style: solid; background-color: red; border-top-width: 1px; border-top-style: solid; background-position: initial initial; background-repeat: initial initial;">
+<div id="cell<%= row.to_s+col.to_s %>" data_col="<%= col %>" data_row="<%= row %>" data_isSelected="0" ontouchmove="touchMove(event)" ontouchstart="touchStart(event)" style="vertical-align: top; display: inline-block; zoom: 1; width: <%= @cellWidth %>px; height: <%= @cellHeight %>px; font-size: 0px; border-left-width: 1px; border-color: white; border-left-style: solid; background-color: <%= @unselectedColor %>; border-top-width: 1px; border-top-style: solid; background-position: initial initial; background-repeat: initial initial;">
 </div>
 
 <% end %>
 </div>
 <% end %>
-
+</div>
+</div>
+<div class = "col-xs-1">
+	
+</div>
 </div>
 <script>
 window.App = window.App || {};
 App.width = <%= @cellWidth %>;
 App.height = <%= @cellHeight %>;
+App.unselectedColor = "<%= @unselectedColor %>";
+App.selectedColor = "<%= @selectedColor %>";
 </script>

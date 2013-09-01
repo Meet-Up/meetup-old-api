@@ -1,5 +1,5 @@
-var selectedColor = "green"
-var unselectedColor = "red"
+var selectedColor = App.selectedColor;
+var unselectedColor = App.unselectedColor;
 var cellWidth = App.width;
 var cellHeight = App.height;
 var startTouchX = 0;
@@ -9,15 +9,22 @@ var coords = [];
 
 function touchStart( e ) {  
   var elemId = e.currentTarget.id;
-  var box = document.getElementById(elemId); 
+  // var box = document.getElementById(elemId); 
   coords = [];
-  if (box.style.background == selectedColor)
+  var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
+  coords.push(saveVar);
+  
+  if ($("#"+elemId ).attr("data_isSelected") == 1)
   {
     isSelectingCells = false;
+    $("#"+elemId).attr("data_isSelected",0);
+    $("#"+elemId).css("background-color", unselectedColor);
   } 
   else
   {
     isSelectingCells = true;
+    $("#"+elemId).attr("data_isSelected",1);
+    $("#"+elemId).css("background-color", selectedColor);
   }
   //console.log("Start Touch - screenX:"+ e.targetTouches[0].pageX + ", screenY:"+e.targetTouches[0].pageY);
   startTouchX = e.targetTouches[0].pageX;
@@ -55,7 +62,7 @@ function touchMove( e ) {
     {
       row = cur_row+rowSign*y;
       col = cur_col+colSign*x;
-      var selectedBox = document.getElementById("cell:"+row+","+col);
+      var selectedBox = document.getElementById("cell"+row+""+col);
       if (selectedBox !== null)
       {
         var saveVar = "("+row+","+col+")";
@@ -67,10 +74,12 @@ function touchMove( e ) {
         if (isSelectingCells)
         {
           selectedBox.style.background = selectedColor;
+          $(selectedBox ).attr("data_isSelected",1);
         }
         else
         {
           selectedBox.style.background = unselectedColor;
+          $(selectedBox).attr("data_isSelected",0);
         }
       }
     }
