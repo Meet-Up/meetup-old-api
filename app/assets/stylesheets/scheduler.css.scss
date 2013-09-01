@@ -3,11 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .date_label{
-	font-size:40px;
+	font-size:45px;
 	display:inline-block;
 	border-left-width: 1px;
 	border-color: white;
-	border-left-style: solid
+	border-left-style: solid;
+	padding-bottom: 10px
 }
 
 .time_label{
