@@ -1,6 +1,7 @@
 MeetupApi::Application.routes.draw do
 
   match 'auth/get_token', to: 'auth#get_token', via: [:post]
+  match 'auth/confirm_user', to: 'auth#confirm_user', via: [:post]
 
   get "auth/confirm_user"
 
