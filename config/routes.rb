@@ -17,8 +17,7 @@ MeetupApi::Application.routes.draw do
   # first created -> highest priority.
 
   # Sample of regular route:
-  #
-  match 'scheduler' => 'scheduler#respondToToken'
+  match 'scheduler', to: 'scheduler#respondToToken'
   resources :events
   resources :possible_dates
 

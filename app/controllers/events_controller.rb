@@ -3,6 +3,11 @@ class EventsController < ApplicationController
 
   before_filter :auth_user!
 
+  def index
+    @event = Event.includes([:creator, :event_dates])
+    render json: @event
+  end
+
   def create
 	  @event = @user.created_events.build(params[:event])
 	  if @event.save

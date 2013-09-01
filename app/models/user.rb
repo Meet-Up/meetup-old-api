@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
 	def refresh_token
 		self.token = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
 	end
+
+  def username
+    self.email.split('@')[0]
+  end
 end
