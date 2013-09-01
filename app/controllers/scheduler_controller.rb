@@ -3,7 +3,6 @@ class SchedulerController < ApplicationController
   IDEALSTARTTIME=10.5
   IDEALENDTIME=22
   def respondToToken
-
     @dates=IDEALDATES
     @s_time=IDEALSTARTTIME
     @e_time=IDEALENDTIME
@@ -15,6 +14,8 @@ class SchedulerController < ApplicationController
     @selectedColor = "#E2EEC5"
     @name = "David Liu's mock nomikai"
     @description="hoge"
+    
+    @interestColor = "#586B29"
 
     render "scheduler/main"
   end
@@ -23,9 +24,13 @@ class SchedulerController < ApplicationController
     # process data
     
     # Prepare data and broadcast it via Websocket!
-    r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_int
+    r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_i
     c = IDEALDATES.length
-    d = (1..r*c).map{rand(0..10)}
+    d = []
+    r.times do |i|
+      d << (1..c).map{rand(0..10)}
+    end
+    #d = (1..r*c).map{rand(0..10)}
     result = JSON.generate({rows: r, cols: c, data: d})
     WebsocketRails[:newTimes].trigger 'update',  result
     

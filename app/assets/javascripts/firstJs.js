@@ -12,7 +12,28 @@ var dispatcher = new WebSocketRails('localhost:3000/websocket');
 var channel = dispatcher.subscribe('newTimes');
 channel.bind('update', function(post) {
   var newUpdate = $.parseJSON(post);
-  console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.cols+', Data:'+newUpdate.data);
+  console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.rows+', Data:'+newUpdate.data);
+
+  var maxInterestVal = 0;
+  for (var c=0; c<newUpdate.cols; c++)
+  { 
+    for (var r=0; r<newUpdate.rows; r++)
+    {
+      if (newUpdate.data[r][c] > maxInterestVal)
+      {
+        maxInterestVal = newUpdate.data[r][c];
+      }
+    }
+  }
+
+  // Update the UI to reflect the interest level
+  for (var c=0; c<newUpdate.cols; c++)
+  { 
+    for (var r=0; r<newUpdate.rows; r++)
+    {
+      $("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal);
+    }
+  }
 });
 
 
@@ -22,7 +43,7 @@ function touchStart( e ) {
   coords = [];
   var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
   coords.push(saveVar);
-  
+
   if ($("#"+elemId ).attr("data_isSelected") == 1)
   {
     isSelectingCells = false;
@@ -72,14 +93,14 @@ function touchMove( e ) {
       row = cur_row+rowSign*y;
       col = cur_col+colSign*x;
       var selectedBox = document.getElementById("cell"+row+""+col);
-      if (selectedBox !== null)
+      if (selectedBox !== null && $(selectedBox ).attr("data_isSelected") != isSelectingCells)
       {
         var saveVar = "("+row+","+col+")";
         if ($.inArray(saveVar, coords) === -1)
         {
           coords.push(saveVar);  
         }
-        
+
         if (isSelectingCells)
         {
           selectedBox.style.background = selectedColor;
@@ -97,16 +118,16 @@ function touchMove( e ) {
 
 function touchEnd( e ) {  
   var resultData = {token:"adfa123413adfasdf",
-                coordinates: coords,
-                isSelecting: isSelectingCells};
+  coordinates: coords,
+  isSelecting: isSelectingCells};
 
   // Do ajax post
   $.post('ajax/test.html', resultData, function(data) {
     console.log("Success log:");
     console.log(data);
-  }, "json");
+    }, "json");
 
-  e.preventDefault();  
-  return false;
-}
+    e.preventDefault();  
+    return false;
+  }
 

@@ -7,28 +7,28 @@
 
 <!-- 	<div class="col-xs-1 col-sm-1">
 
-	</div> -->
-	<div class = "col-xs-1 col-sm-1">
-				<div class="time_label" style="height:40px">
-			</div>
-		<% for i in 0..@rows+1 %>
+</div> -->
+<div class = "col-xs-1 col-sm-1">
+  <div class="time_label" style="height:40px">
+  </div>
+  <% for i in 0..@rows+1 %>
 
-			<div class="time_label" style="height: <%= @cellHeight %>px; vertical-align:bottom; text-align:left; padding-right:20px">
-				<% if (@s_time + i *0.5)%1 == 0 %>
-				<%= (@s_time + i * 0.5).floor.to_s+":00" %>
-				<% else %>
-				<%= (@s_time + i * 0.5).floor.to_s+":30" %>
-				<% end %>
-			</div>
-		<% end %>
+  <div class="time_label" style="height: <%= @cellHeight %>px; vertical-align:bottom; text-align:left; padding-right:20px">
+    <% if (@s_time + i *0.5)%1 == 0 %>
+    <%= (@s_time + i * 0.5).floor.to_s+":00" %>
+    <% else %>
+    <%= (@s_time + i * 0.5).floor.to_s+":30" %>
+    <% end %>
+  </div>
+  <% end %>
 </div>
-	<div class="col-xs-11 col-sm-11 text-center" style="padding-left:22px">
+<div class="col-xs-11 col-sm-11 text-center" style="padding-left:22px">
 <!-- 		<h3 style="color:red; font-size:45px">空いている時間を<br>スワイプしてください</h3> -->
-		<% for i in 0..@cols %>
-		<div style = "width:<%= @cellWidth %>px" class="date_label">
-		<%= @dates[i] %>
-			</div>
-		<% end %> 
+<% for i in 0..@cols %>
+<div style = "width:<%= @cellWidth %>px" class="date_label">
+  <%= @dates[i] %>
+</div>
+<% end %> 
 <div id="rootDiv" ontouchend="touchEnd(event)">
 
 <% for row in 0..@rows %>
@@ -45,10 +45,57 @@
 </div>
 
 </div>
+
+<hr>
+<!-- Display the interest level for each time slots-->
+
+<h1 style = "font-size:70px"><%= @name %> Poll</h1>
+<br>
+<div class="row">
+
+<div class = "col-xs-1 col-sm-1">
+  <div class="time_label" style="height:40px">
+  </div>
+  <% for i in 0..@rows+1 %>
+
+  <div class="time_label" style="height: <%= @cellHeight %>px; vertical-align:bottom; text-align:left; padding-right:20px">
+    <% if (@s_time + i *0.5)%1 == 0 %>
+    <%= (@s_time + i * 0.5).floor.to_s+":00" %>
+    <% else %>
+    <%= (@s_time + i * 0.5).floor.to_s+":30" %>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<div class="col-xs-11 col-sm-11 text-center" style="padding-left:22px">
+<% for i in 0..@cols %>
+<div style = "width:<%= @cellWidth %>px" class="date_label">
+  <%= @dates[i] %>
+</div>
+<% end %> 
+<div id="rootDiv" ontouchend="touchEnd(event)">
+
+<% for row in 0..@rows %>
+<div style="font-size:0px;vertical-align:top">
+<% for col in 0..@cols %>
+
+<div id="interestCell<%= row.to_s+col.to_s %>" data_col="<%= col %>" data_row="<%= row %>" data_isSelected="0" ontouchmove="touchMove(event)" ontouchstart="touchStart(event)" style="vertical-align: top; display: inline-block; zoom: 1; width: <%= @cellWidth %>px; height: <%= @cellHeight %>px; font-size: 0px; border-left-width: 1px; border-color: white; border-left-style: solid; background-color: <%= @interestColor %>; border-top-width: 1px; border-top-style: solid; background-position: initial initial; background-repeat: initial initial;">
+</div>
+
+<% end %>
+</div>
+<% end %>
+</div>
+</div>
+
+</div>
+
+
 <script>
 window.App = window.App || {};
 App.width = <%= @cellWidth %>;
 App.height = <%= @cellHeight %>;
 App.unselectedColor = "<%= @unselectedColor %>";
 App.selectedColor = "<%= @selectedColor %>";
+App.interestColor = "<%= @interestColor %>";
 </script>
