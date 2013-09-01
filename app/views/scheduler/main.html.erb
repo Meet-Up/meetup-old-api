@@ -4,10 +4,25 @@
 <br>
 
 <div class="row">
+
 <!-- 	<div class="col-xs-1 col-sm-1">
 
 	</div> -->
-	<div class="col-xs-11 col-sm-11 text-center">
+	<div class = "col-xs-1 col-sm-1">
+				<div class="time_label" style="height:40px">
+			</div>
+		<% for i in 0..@rows+1 %>
+
+			<div class="time_label" style="height: <%= @cellHeight %>px; vertical-align:bottom; text-align:left; padding-right:20px">
+				<% if (@s_time + i *0.5)%1 == 0 %>
+				<%= (@s_time + i * 0.5).floor.to_s+":00" %>
+				<% else %>
+				<%= (@s_time + i * 0.5).floor.to_s+":30" %>
+				<% end %>
+			</div>
+		<% end %>
+</div>
+	<div class="col-xs-11 col-sm-11 text-center" style="padding-left:22px">
 <!-- 		<h3 style="color:red; font-size:45px">空いている時間を<br>スワイプしてください</h3> -->
 		<% for i in 0..@cols %>
 		<div style = "width:<%= @cellWidth %>px" class="date_label">
@@ -28,20 +43,7 @@
 <% end %>
 </div>
 </div>
-<div class = "col-xs-1 col-sm-1">
-				<div class="time_label" style="height:40px">
-			</div>
-		<% for i in 0..@rows+1 %>
 
-			<div class="time_label" style="height: <%= @cellHeight %>px; vertical-align:bottom; text-align:left; padding-right:20px">
-				<% if (@s_time + i *0.5)%1 == 0 %>
-				<%= (@s_time + i * 0.5).floor.to_s+":00" %>
-				<% else %>
-				<%= (@s_time + i * 0.5).floor.to_s+":30" %>
-				<% end %>
-			</div>
-		<% end %>
-</div>
 </div>
 <script>
 window.App = window.App || {};
