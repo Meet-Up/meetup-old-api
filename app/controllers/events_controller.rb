@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_filter :auth_user!
 
 	def create
-		@event = Event.new(params[:event])
+    @event = @user.created_events.build(params[:event])
 		if @event.save
 			users = params[:user]
       unless users.nil?
