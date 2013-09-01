@@ -8,10 +8,10 @@ class SchedulerController < ApplicationController
     @e_time=IDEALENDTIME
     @rows = (@e_time - @s_time) * 2 -1
     @cols = @dates.length - 1
-    @cellWidth = [780/(@cols+1),270].min
+    @cellWidth = [870/(@cols+1),270].min
     @cellHeight =[1200/(@rows+1),100].max
-    @unselectedColor = "rgb(180, 180, 180)"
-    @selectedColor = "rgb(80, 80, 80)"
+    @unselectedColor = "rgb(224,223,177)"
+    @selectedColor = "rgb(149, 31, 43)"
     @name = "David Liu's mock nomikai"
     @description="hoge"
 
