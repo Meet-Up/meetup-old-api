@@ -1,6 +1,7 @@
 class AuthController < ApplicationController
   def get_token
     @tmp_auth = TmpAuth.create(email: params[:email])
+    UserMailer.confirm_email(@tmp_auth).deliver
     render json: @tmp_auth
   end
 
@@ -10,7 +11,7 @@ class AuthController < ApplicationController
   		render json: { error: 'pin code error'}
   	else
   		@user = auth.create_user
-  		render json: @user
+  		render json: { user: @user }
   	end
   end
 end
