@@ -9,11 +9,11 @@ class SchedulerController < ApplicationController
     @e_time=IDEALENDTIME
     @rows = (@e_time - @s_time) * 2 - 1
     @cols = @dates.length - 1
-    @cellWidth = [870/(@cols+1),270].min
+    @cellWidth = [800/(@cols+1),270].min
     @cellHeight =[1200/(@rows+1),100].max
     @unselectedColor = "#DCDDDD"
-    @selectedColor = "#E2EEC5"
-    @name = "David Liu's mock nomikai"
+    @selectedColor = "#339933"
+    @name = "大江戸ハッカソン打ち上げパーティー"
     @description="hoge"
 
     render "scheduler/main"
