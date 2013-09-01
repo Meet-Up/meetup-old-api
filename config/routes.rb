@@ -19,15 +19,6 @@ MeetupApi::Application.routes.draw do
   # Sample of regular route:
   match 'scheduler' => 'scheduler#respondToToken'
   match 'newTime' => 'scheduler#postNewTimes'
-  
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
   resources :events
   resources :possible_dates
 

@@ -1,31 +1,37 @@
 class EventsController < ApplicationController
 	TOKEN_LENGTH = 20
-	def create
 
+  before_filter :auth_user!
 
-		@event = Event.new(params[:event])
-		#puts YAML::dump(@event)
-		if @event.save
+  def index
+    @event = Event.includes([:creator, :event_dates])
+    render json: @event
+  end
 
-			users = params[:user]
-			#puts YAML::dump(users)
-			users.each { |u| 
-				hoge = User.where(email: u).first
-				puts YAML::dump(hoge)
-				#puts YAML::dump(u)
-			} 
-
-			#secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
-			#EventToken.new(:event_id => @event.id, :user_id => user.id, secure)
-
-			render json:  @event 
-		else 
-			render :json  => @event.errors
-		end
-	end
+  def create
+	  @event = @user.created_events.build(params[:event])
+	  if @event.save
+		  users = params[:user]
+		  unless users.nil?
+			  users.each { |mail|
+				  u = User.where(email: mail).first
+				  if u.nil? then
+					  u = User.create(:email => mail)
+				  end
+				  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
+				  EventToken.create(:event_id => @event.id, :user_id => u.id, :token => secure)
+			  }
+			  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
+			  EventToken.create(:event_id => @event.id, :token => secure)
+		  end
+		  render json:  @event
+	  else
+		  render :json  => @event.errors
+	  end
+  end
 
 	def show
 		@event = Event.find(params[:id])
-		render json: @event 
+		render json: @event
 	end
 end

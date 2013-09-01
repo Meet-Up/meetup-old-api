@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  belongs_to :creator, class_name: 'User'
 	has_many :event_dates
 	has_many :possible_dates
 	has_many :users,through:  :possible_dates
@@ -7,6 +8,6 @@ class Event < ActiveRecord::Base
 	accepts_nested_attributes_for :event_dates
 
 	def as_json(option={})
-		super(:include => [:event_dates])
+		super(:include => [:event_dates, creator: {only: :username, methods: :username}])
 	end
 end
