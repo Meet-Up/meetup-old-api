@@ -57,11 +57,16 @@ class SchedulerController < ApplicationController
     # process data
     
     # Prepare data and broadcast it via Websocket!
-    r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_int
-    c = IDEALDATES.length
-    d = (1..r*c).map{rand(0..10)}
-    result = JSON.generate({rows: r, cols: c, data: d})
-    WebsocketRails[:newTimes].trigger 'update',  result
+    #r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_int
+    #c = IDEALDATES.length
+    #d = (1..r*c).map{rand(0..10)}
+    #result = JSON.generate({rows: r, cols: c, data: d})
+    #WebsocketRails[:newTimes].trigger 'update',  result
     
   end
+
+
+
+
+
 end

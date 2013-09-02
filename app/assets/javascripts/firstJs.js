@@ -96,17 +96,26 @@ function touchMove( e ) {
 }
 
 function touchEnd( e ) {  
-  var resultData = {token:"adfa123413adfasdf",
+  //var resultData = {token:"adfa123413adfasdf",
+  var resultData = {token: getUrlVars()["token"],
                 coordinates: coords,
                 isSelecting: isSelectingCells};
 
   // Do ajax post
-  $.post('ajax/test.html', resultData, function(data) {
+  //$.post('/newTime', resultData, function(data) {
+  $.post('http://0.0.0.0:3000/newTime', resultData, function(data) {
     console.log("Success log:");
     console.log(data);
   }, "json");
 
   e.preventDefault();  
   return false;
+}
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
 }
 
