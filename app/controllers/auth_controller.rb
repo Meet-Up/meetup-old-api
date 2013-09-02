@@ -14,4 +14,9 @@ class AuthController < ApplicationController
   		render json: { user: @user }
   	end
   end
+
+  def check
+    user = User.find_by_token(params[:token])
+    render json: { success: !user.nil? }
+  end
 end
