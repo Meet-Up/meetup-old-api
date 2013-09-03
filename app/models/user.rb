@@ -23,4 +23,8 @@ class User < ActiveRecord::Base
   def username
     self.email.split('@')[0]
   end
+
+  def add_missing_info(info)
+
+  end
 end
