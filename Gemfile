@@ -19,3 +19,5 @@ gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
 
 gem 'websocket-rails'
 gem 'thin'
+
+gem 'delayed_job_active_record'

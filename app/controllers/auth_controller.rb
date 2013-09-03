@@ -2,6 +2,7 @@ class AuthController < ApplicationController
   def get_token
     @tmp_auth = TmpAuth.find_or_create_by_email(params[:email])
     UserMailer.confirm_email(@tmp_auth).deliver
+    @tmp_auth.delay.destroy
     render json: @tmp_auth
   end
 
