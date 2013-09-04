@@ -17,6 +17,8 @@ class TmpAuth < ActiveRecord::Base
     super(except: [:pin])
   end
 
+  handle_asynchronously :destroy, :run_at => Proc.new { 1.hour.from_now }
+
   private
   def set_token
     self.token = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
