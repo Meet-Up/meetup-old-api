@@ -21,3 +21,5 @@ gem 'websocket-rails'
 gem 'thin'
 
 gem 'delayed_job_active_record'
+
+gem 'rails-backbone'
