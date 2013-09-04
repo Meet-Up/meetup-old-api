@@ -21,8 +21,8 @@ class EventsController < ApplicationController
 				  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
 				  EventToken.create(:event_id => @event.id, :user_id => u.id, :token => secure)
 			  }
-			  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
-			  EventToken.create(:event_id => @event.id, :token => secure)
+			  #secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
+			  #EventToken.create(:event_id => @event.id, :token => secure)
 		  end
 		  render json:  @event
 	  else

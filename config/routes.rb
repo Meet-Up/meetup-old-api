@@ -8,6 +8,8 @@ MeetupApi::Application.routes.draw do
 
   get "event/show"
 
+  get "auth/check"
+
   match 'auth/get_token', to: 'auth#get_token', via: [:post]
   match 'auth/confirm_user', to: 'auth#confirm_user', via: [:post]
 
@@ -21,7 +23,8 @@ MeetupApi::Application.routes.draw do
   resources :events
   resources :possible_dates
 
-  match 'newTime' => 'scheduler#postNewTimes'
+  #match 'newTime' => 'scheduler#postNewTimes'
+  post 'newTime' => 'scheduler#newTimes'
   
   # Keep in mind you can assign values other than :controller and :action
 
