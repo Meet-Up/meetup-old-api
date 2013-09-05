@@ -1,7 +1,7 @@
 class SchedulerController < ApplicationController
   IDEALDATES=["1/1","1/2","1/3","1/4","1/5"]
   IDEALSTARTTIME=10.5
-  IDEALENDTIME=13
+  IDEALENDTIME=18
   def respondToToken
     @dates=IDEALDATES
     @s_time=IDEALSTARTTIME
@@ -9,7 +9,7 @@ class SchedulerController < ApplicationController
     @rows = (@e_time - @s_time) * 2 - 1
     @cols = @dates.length - 1
     @cellWidth = [800/(@cols+1),270].min
-    @cellHeight =[1200/(@rows+1),50].min
+    @cellHeight =[800/(@rows+1),80].max
     @unselectedColor = "#DCDDDD"
     @selectedColor = "#339933"
     @name = "大江戸ハッカソン打ち上げパーティー"
