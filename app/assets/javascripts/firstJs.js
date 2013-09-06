@@ -45,26 +45,26 @@ channel.bind('update', function(post) {
       // Storing the interested values for bestTimes
       if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
       {
-          blockCounter = blockCounter + 1;
+        blockCounter = blockCounter + 1;
           if (r == newUpdate.rows -1) // Last row
           {
-             if (blockCounter >= minNumberOfBlocks)
-             {
+           if (blockCounter >= minNumberOfBlocks)
+           {
                bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
              }
-          }
-      }
-      else
-      {
+           }
+         }
+         else
+         {
           if (blockCounter >= minNumberOfBlocks)
           {
             bestTimes.push([c,r-blockCounter, r-1]); // Add to the bestTimes
           }
           blockCounter = 0;
+        }
       }
     }
-  }
-  console.log('@'+bestTimes);
+    console.log('@'+bestTimes);
 
 
   // Color the interested cells using bestTimes
@@ -93,9 +93,9 @@ function touchStart( e ) {
   coords = [];
   //var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
   var saveVar = [
-	  eventDates[Number($("#"+elemId).attr("data_col"))],
-	  Number($("#"+elemId).attr("data_row"))+s_offset
-		  ];
+  eventDates[Number($("#"+elemId).attr("data_col"))],
+  Number($("#"+elemId).attr("data_row"))+s_offset
+  ];
 
   coords.push(saveVar);
 
@@ -159,9 +159,9 @@ function touchMove( e ) {
       {
         //var saveVar = "("+row+","+col+")";
         var saveVar = [
-			eventDates[col],
-			row + s_offset
-				];
+        eventDates[col],
+        row + s_offset
+        ];
         if ($.inArray(saveVar, coords) === -1)
         {
           coords.push(saveVar);
@@ -184,9 +184,9 @@ function touchMove( e ) {
 
 function touchEnd( e ) {
   var resultData = {token: getUrlVars()["token"],
-	  coordinates: coords,
-	  isSelecting: isSelectingCells
-  };
+  coordinates: coords,
+  isSelecting: isSelectingCells
+};
 
   // Do ajax post
   //$.post('/newTime', resultData, function(data) {
@@ -195,38 +195,38 @@ function touchEnd( e ) {
   //$.post('http://0.0.0.0:3000/newTime', resultData, function(data) {
 
   //$.post('http://0.0.0.0:3000/newTime', {name:"date", val:3}, function(data) {
-		  //console.log("Success log:");
-		  //console.log(data);
-		  //}, "json");
+      //console.log("Success log:");
+      //console.log(data);
+      //}, "json");
 
 
-  $.ajax({
-	  type: 'POST',
-	  contentType: "application/json",
-	  url: '/newTime',
-	  data: JSON.stringify(resultData),
-	  dataType: "json",
+$.ajax({
+  type: 'POST',
+  contentType: "application/json",
+  url: '/newTime',
+  data: JSON.stringify(resultData),
+  dataType: "json",
 
-	  success: function(data) {
-		  console.log("Success log:");
-		  console.log(data);
-      $('.saved').css('visibility', 'visible');
-      setTimeout(function() {
-        $('.saved').css('visibility', 'hidden');
-      }, 3000);
-		  }
-	  });
+  success: function(data) {
+    console.log("Success log:");
+    console.log(data);
+    $('.saved').css('visibility', 'visible');
+    setTimeout(function() {
+      $('.saved').css('visibility', 'hidden');
+    }, 3000);
+  }
+});
 
 
-  e.preventDefault();
-  return false;
+e.preventDefault();
+return false;
 }
 
 function getUrlVars() {
-	var vars = {};
-	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-		vars[key] = value;
-	});
-	return vars;
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    vars[key] = value;
+  });
+  return vars;
 }
 
