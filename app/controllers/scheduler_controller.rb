@@ -11,6 +11,8 @@ class SchedulerController < ApplicationController
 			@e_time=IDEALENDTIME
 			@name = "大江戸ハッカソン打ち上げパーティー"
 			@description="大江戸ハッカソンの打ち上げです"
+			@dates_id = [1,2,3,4,5]
+			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
 		else
 			e = EventToken.where(:token => params[:token]).last
 			poss = PossibleDate.where(:event_id => e.event_id, :user_id => e.user_id)
@@ -62,8 +64,6 @@ class SchedulerController < ApplicationController
 					end
 				}
 			end
-			puts YAML::dump(@saved_data)
-
 
 		end
 
