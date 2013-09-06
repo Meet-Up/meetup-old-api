@@ -12,5 +12,4 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree vendors
 //= require_tree .
