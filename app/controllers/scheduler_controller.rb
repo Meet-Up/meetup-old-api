@@ -97,8 +97,6 @@ class SchedulerController < ApplicationController
 
 
 
-	def search
-	end
 
 
 

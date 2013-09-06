@@ -14,15 +14,19 @@ class EventsController < ApplicationController
 		  users = params[:user]
 		  unless users.nil?
 			  users.each { |mail|
+
 				  u = User.where(email: mail).first
 				  if u.nil? then
 					  u = User.create(:email => mail)
 				  end
+				  EventUser.create(:event_id => @event.id, :user_id => u.id)
+
 				  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
-				  EventToken.create(:event_id => @event.id, :user_id => u.id, :token => secure)
+				  t = EventToken.create(:event_id => @event.id, :user_id => u.id, :token => secure)
+
+				  EventMailer.invite_email(@event, u.email, t.get_url).deliver
+
 			  }
-			  #secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
-			  #EventToken.create(:event_id => @event.id, :token => secure)
 		  end
 		  render json:  @event
 	  else

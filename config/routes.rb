@@ -12,6 +12,10 @@ MeetupApi::Application.routes.draw do
   #match 'newTime' => 'scheduler#postNewTimes'
   post 'newTime' => 'scheduler#newTimes'
 
+
+  match 'searchs/event_detail', to: 'searchs#event_detail', via: [:post]
+  match 'searchs/events', to: 'searchs#events', via: [:post]
+
   resources :events
   resources :possible_dates
 
