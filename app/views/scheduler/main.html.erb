@@ -44,25 +44,14 @@
 
 				ontouchmove="touchMove(event)"
 				ontouchstart="touchStart(event)"
-				style="vertical-align: top;
-					display: inline-block;
-					zoom: 1;
+				style="
 					width: <%= @cellWidth %>px;
 					height: <%= @cellHeight %>px;
-					font-size: 0px;
-					border-left-width: 1px;
-					border-color: white;
-					border-left-style: solid;
 					<% if @saved_data[col][row] == "0" %>
 						background-color: <%= @unselectedColor %>;
 					<% else %>
 						background-color: <%= @selectedColor %>;
-					<% end %>
-					border-top-width: 1px;
-					border-top-style: solid;
-					background-position: initial initial;
-					background-repeat: initial initial;"
-				>
+					<% end %>">
 			</div>
 		<% end %>
 		</div>

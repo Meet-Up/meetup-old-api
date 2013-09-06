@@ -1,7 +1,11 @@
 class MeetupApi.SchedulerView extends Backbone.View
+  el: "#rootDiv"
+
   constructor: (@options) ->
 
   events:
-    touchStart:
+    "dragend #rootDiv": "handleDragEnd"
 
 
+  handleDragEnd: (e) ->
+    console.log e

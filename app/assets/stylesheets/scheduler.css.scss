@@ -26,3 +26,17 @@ body{
   visibility: hidden;
   font-size: 28pt;
 }
+
+.cell {
+  vertical-align: top;
+  display: inline-block;
+  zoom: 1;
+  font-size: 0px;
+  border-left-width: 1px;
+  border-color: white;
+  border-left-style: solid;
+  border-top-width: 1px;
+  border-top-style: solid;
+  background-position: initial initial;
+  background-repeat: initial initial;
+}
