@@ -5,7 +5,7 @@ class SchedulerController < ApplicationController
 
 	def respondToToken
 
-		if  params[:token].nil? 
+		if params[:token].nil?
 			@dates=IDEALDATES
 			@s_time=IDEALSTARTTIME
 			@e_time=IDEALENDTIME
@@ -64,7 +64,7 @@ class SchedulerController < ApplicationController
 		end
 
 
-		#@rows = (@e_time - @s_time) * 2 
+		#@rows = (@e_time - @s_time) * 2
 		#@cols = @dates.length - 1
 		#@cellWidth = [780/(@cols+1),270].min
 		#@cellHeight =[1200/(@rows+1),100].max
@@ -91,26 +91,26 @@ class SchedulerController < ApplicationController
 
 		param = params[:coordinates]
 		d = Hash.new {|hash, key| hash[key] = []}
-		param.each { |dates_id, date_times| 
+		param.each { |dates_id, date_times|
 			d[dates_id] << date_times
 		}
 
 		possible_times = Hash.new { |hash, key| hash[key] = "0"*48 }
-		p_dates.each { |p| 
+		p_dates.each { |p|
 			possible_times[p.event_date_id] = p.possible_time
 		}
 
-		d.each { |date_id,date_times| 	
-			date_times.each { |t| 
+		d.each { |date_id,date_times|
+			date_times.each { |t|
 				possible_times[date_id][t] = bit
 			}
 		}
 
-		possible_times.each { |k,v| 
+		possible_times.each { |k,v|
 			p = PossibleDate.where(:event_id => e.event_id,:user_id => e.user_id,:event_date_id => k).last
 			if p.nil?
 				PossibleDate.create(:event_id => e.event_id,:user_id => e.user_id,:event_date_id => k,:possible_time => v)
-			else 
+			else
 				p.update_attribute(:possible_time, v )
 			end
 			#puts YAML::dump(p)

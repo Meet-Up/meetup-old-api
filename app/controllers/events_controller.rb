@@ -24,7 +24,7 @@ class EventsController < ApplicationController
 				  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
 				  t = EventToken.create(:event_id => @event.id, :user_id => u.id, :token => secure)
 
-				  # EventMailer.invite_email(@event, u.email, t.get_url).deliver
+				  EventMailer.delay.invite_email(@event, u.email, t.get_url)
 
 			  end
 		  end
