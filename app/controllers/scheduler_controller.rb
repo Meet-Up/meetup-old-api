@@ -55,7 +55,11 @@ class SchedulerController < ApplicationController
 			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
 			unless poss.empty?
 				@dates.each_with_index { |d,i| 
-					@saved_data[i] = poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.possible_time[@s_time*2..@e_time*2]
+					unless poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.nil?
+						@saved_data[i] = poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.possible_time[@s_time*2..@e_time*2]
+					else
+						@saved_data[i][@s_time*2..@e_time*2]
+					end
 				}
 			end
 			puts YAML::dump(@saved_data)
