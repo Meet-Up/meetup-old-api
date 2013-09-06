@@ -1,18 +1,12 @@
 class SearchsController < ApplicationController
 
+	#user_id
+	#offset
+	#limit
+
 	def events
 		u = User.where(:token => params[:token]).last
-		puts YAML::dump(u.event_users)
-
-		j = {}
-
-		u.event_users.each{ |e|
-		}
-		#render json: u.event_users
-		#render json: {
-			#"hoge" => [123,234],
-			#"hige" => "ffef"
-		#}
+    	render json: u.to_json(:include => [:even_users,:possible_dates])
 	end
 
 	def event_detail
