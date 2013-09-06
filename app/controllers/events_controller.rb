@@ -9,11 +9,11 @@ class EventsController < ApplicationController
   end
 
   def create
+    users = params[:event].delete(:users)
 	  @event = @user.created_events.build(params[:event])
 	  if @event.save
-		  users = params[:user]
 		  unless users.nil?
-			  users.each { |mail|
+			  users.each do |mail|
 
 				  u = User.where(email: mail).first
 				  if u.nil? then
@@ -24,9 +24,9 @@ class EventsController < ApplicationController
 				  secure = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
 				  t = EventToken.create(:event_id => @event.id, :user_id => u.id, :token => secure)
 
-				  EventMailer.invite_email(@event, u.email, t.get_url).deliver
+				  # EventMailer.invite_email(@event, u.email, t.get_url).deliver
 
-			  }
+			  end
 		  end
 		  render json:  @event
 	  else
