@@ -13,6 +13,8 @@ class SchedulerController < ApplicationController
 			@description="大江戸ハッカソンの打ち上げです"
 		else
 			e = EventToken.where(:token => params[:token]).last
+			poss = PossibleDate.where(:event_id => e.event_id, :user_id => e.user_id)
+
 			dates_tmp = []
 			time_tmp = []
 
@@ -21,12 +23,22 @@ class SchedulerController < ApplicationController
 			e.event.event_dates.each { |d|
 				date_tmp = Time.at(d.start)
 				dates_tmp << date_tmp.strftime("%m/%d")
-				time_tmp << date_tmp.strftime("%H")
+				if date_tmp.strftime("%M").to_i >= 30
+					time_tmp << date_tmp.strftime("%H") + ".5"
+				else
+					time_tmp << date_tmp.strftime("%H")
+				end
+
 				dates_id_tmp[date_tmp.strftime("%m/%d")] = d.id
 
 				date_tmp = Time.at(d.end)
 				dates_tmp << date_tmp.strftime("%m/%d")
-				time_tmp << date_tmp.strftime("%H")
+				if date_tmp.strftime("%M").to_i >= 30
+					time_tmp << date_tmp.strftime("%H") + ".5"
+				else
+					time_tmp << date_tmp.strftime("%H")
+				end
+
 			}
 
 			@dates=dates_tmp.uniq.sort
@@ -39,6 +51,16 @@ class SchedulerController < ApplicationController
 			@dates.each { |d|
 				@dates_id << dates_id_tmp[d]
 			}
+
+			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
+			unless poss.empty?
+				@dates.each_with_index { |d,i| 
+					@saved_data[i] = poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.possible_time[@s_time*2..@e_time*2]
+				}
+			end
+			puts YAML::dump(@saved_data)
+
+
 		end
 
 

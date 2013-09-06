@@ -34,7 +34,8 @@
 				id="cell<%= row.to_s+col.to_s %>"
 				data_col="<%= col  %>"
 				data_row="<%= row  %>"
-				data_isSelected="0"
+				data_isSelected="<%= @saved_data[col][row] == "0" ? 0:1  %>"
+
 				ontouchmove="touchMove(event)"
 				ontouchstart="touchStart(event)"
 				style="vertical-align: top;
@@ -46,7 +47,11 @@
 					border-left-width: 1px;
 					border-color: white;
 					border-left-style: solid;
-					background-color: <%= @unselectedColor %>;
+					<% if @saved_data[col][row] == "0" %>
+						background-color: <%= @unselectedColor %>;
+					<% else %>
+						background-color: <%= @selectedColor %>;
+					<% end %>
 					border-top-width: 1px;
 					border-top-style: solid;
 					background-position: initial initial;
