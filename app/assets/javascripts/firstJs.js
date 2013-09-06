@@ -16,7 +16,7 @@ channel.bind('update', function(post) {
 
   var maxInterestVal = 0;
   for (var c=0; c<newUpdate.cols; c++)
-  { 
+  {
     for (var r=0; r<newUpdate.rows; r++)
     {
       if (newUpdate.data[r][c] > maxInterestVal)
@@ -30,18 +30,18 @@ channel.bind('update', function(post) {
   var percentageOfPpl = 0.5;
   var bestTimes = []
   var blockCounter = 0;
-  
+
   // Update the UI to reflect the interest level
   for (var c=0; c<newUpdate.cols; c++) // For every column (there is 5 columns)
-  { 
+  {
     blockCounter = 0; // Reset the counter to 0
     for (var r=0; r<newUpdate.rows; r++) // For every row (there is 5 rows)
     {
       $("#interestCell"+r+""+c).css("border-width", "2px"); // reset the style
       $("#interestCell"+r+""+c).css("border-color", "white"); // reset the style
       $("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
-      
-      
+
+
       // Storing the interested values for bestTimes
       if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
       {
@@ -65,8 +65,8 @@ channel.bind('update', function(post) {
     }
   }
   console.log('@'+bestTimes);
-  
-  
+
+
   // Color the interested cells using bestTimes
   for (var i=0; i<bestTimes.length; i++) // For every bestTime
   {
@@ -78,7 +78,7 @@ channel.bind('update', function(post) {
       $("#interestCell"+r+""+c).css("border-color", "red");
     }
   }
-  
+
   console.log("finished")
 
 
@@ -86,9 +86,9 @@ channel.bind('update', function(post) {
 });
 
 
-function touchStart( e ) {  
+function touchStart( e ) {
   var elemId = e.currentTarget.id;
-  // var box = document.getElementById(elemId); 
+  // var box = document.getElementById(elemId);
   //
   coords = [];
   //var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
@@ -106,7 +106,7 @@ function touchStart( e ) {
     isSelectingCells = false;
     $("#"+elemId).attr("data_isSelected",0);
     $("#"+elemId).css("background-color", unselectedColor);
-  } 
+  }
   else
   {
     isSelectingCells = true;
@@ -115,15 +115,15 @@ function touchStart( e ) {
   }
 
   //console.log("Start Touch - screenX:"+ e.targetTouches[0].pageX + ", screenY:"+e.targetTouches[0].pageY);
-  
+
   startTouchX = e.targetTouches[0].pageX;
   startTouchY = e.targetTouches[0].pageY;
 
-  e.preventDefault();  
-  return false;  
-}  
+  e.preventDefault();
+  return false;
+}
 
-function touchMove( e ) {  
+function touchMove( e ) {
   var elemId = e.currentTarget.id;
   var box = document.getElementById(elemId);
   var cur_col = parseInt(box.getAttribute("data_col"));
@@ -149,7 +149,7 @@ function touchMove( e ) {
 
   // Change the UI
   for (var x=0; x<=Math.abs(cellCols); x++)
-  { 
+  {
     for (var y=0; y<=Math.abs(cellRows); y++)
     {
       row = cur_row+rowSign*y;
@@ -164,7 +164,7 @@ function touchMove( e ) {
 				];
         if ($.inArray(saveVar, coords) === -1)
         {
-          coords.push(saveVar);  
+          coords.push(saveVar);
         }
 
         if (isSelectingCells)
@@ -182,7 +182,7 @@ function touchMove( e ) {
   }
 }
 
-function touchEnd( e ) {  
+function touchEnd( e ) {
   var resultData = {token: getUrlVars()["token"],
 	  coordinates: coords,
 	  isSelecting: isSelectingCells
@@ -191,9 +191,9 @@ function touchEnd( e ) {
   // Do ajax post
   //$.post('/newTime', resultData, function(data) {
   //console.log(resultData);
-  
+
   //$.post('http://0.0.0.0:3000/newTime', resultData, function(data) {
-  
+
   //$.post('http://0.0.0.0:3000/newTime', {name:"date", val:3}, function(data) {
 		  //console.log("Success log:");
 		  //console.log(data);
@@ -203,18 +203,22 @@ function touchEnd( e ) {
   $.ajax({
 	  type: 'POST',
 	  contentType: "application/json",
-	  url: '/newTime', 
+	  url: '/newTime',
 	  data: JSON.stringify(resultData),
 	  dataType: "json",
-	  
+
 	  success: function(data) {
 		  console.log("Success log:");
 		  console.log(data);
-		  } 
+      $('.saved').css('visibility', 'visible');
+      setTimeout(function() {
+        $('.saved').css('visibility', 'hidden');
+      }, 3000);
+		  }
 	  });
 
 
-  e.preventDefault();  
+  e.preventDefault();
   return false;
 }
 
