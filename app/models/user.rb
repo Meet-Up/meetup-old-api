@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
+	has_many :event_users
 	has_many :possible_dates
-  has_many :created_events, class_name: 'Event', foreign_key: 'creator_id'
-	attr_accessible :name, :token, :email
+  	has_many :created_events, class_name: 'Event', foreign_key: 'creator_id'
+	attr_accessible :name, :email
 
 	TOKEN_LENGTH = 20
 
