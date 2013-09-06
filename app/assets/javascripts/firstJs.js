@@ -1,61 +1,67 @@
+$(function() {
+  init();
+});
+
 var selectedColor = App.selectedColor;
 var unselectedColor = App.unselectedColor;
-var cellWidth = App.width;
-var cellHeight = App.height;
+var coords = [];
 var startTouchX = 0;
 var startTouchY = 0;
+var cellWidth = App.width;
+var cellHeight = App.height;
 var isSelectingCells = true;
-var coords = [];
 
-// Connecting to websocket
-var dispatcher = new WebSocketRails('localhost:3000/websocket');
-var channel = dispatcher.subscribe('newTimes');
-channel.bind('update', function(post) {
-  var newUpdate = $.parseJSON(post);
-  //console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.rows+', Data:'+newUpdate.data);
+var init = function() {
 
-  var maxInterestVal = 0;
-  for (var c=0; c<newUpdate.cols; c++)
-  {
-    for (var r=0; r<newUpdate.rows; r++)
+  // Connecting to websocket
+  var dispatcher = new WebSocketRails('localhost:3000/websocket');
+  var channel = dispatcher.subscribe('newTimes');
+  channel.bind('update', function(post) {
+    var newUpdate = $.parseJSON(post);
+    //console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.rows+', Data:'+newUpdate.data);
+
+    var maxInterestVal = 0;
+    for (var c=0; c<newUpdate.cols; c++)
     {
-      if (newUpdate.data[r][c] > maxInterestVal)
+      for (var r=0; r<newUpdate.rows; r++)
       {
-        maxInterestVal = newUpdate.data[r][c];
+        if (newUpdate.data[r][c] > maxInterestVal)
+        {
+          maxInterestVal = newUpdate.data[r][c];
+        }
       }
     }
-  }
 
-  var minNumberOfBlocks = 3;
-  var percentageOfPpl = 0.5;
-  var bestTimes = []
-  var blockCounter = 0;
+    var minNumberOfBlocks = 3;
+    var percentageOfPpl = 0.5;
+    var bestTimes = []
+    var blockCounter = 0;
 
-  // Update the UI to reflect the interest level
-  for (var c=0; c<newUpdate.cols; c++) // For every column (there is 5 columns)
-  {
-    blockCounter = 0; // Reset the counter to 0
-    for (var r=0; r<newUpdate.rows; r++) // For every row (there is 5 rows)
+    // Update the UI to reflect the interest level
+    for (var c=0; c<newUpdate.cols; c++) // For every column (there is 5 columns)
     {
-      $("#interestCell"+r+""+c).css("border-width", "2px"); // reset the style
-      $("#interestCell"+r+""+c).css("border-color", "white"); // reset the style
-      $("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
-
-
-      // Storing the interested values for bestTimes
-      if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
+      blockCounter = 0; // Reset the counter to 0
+      for (var r=0; r<newUpdate.rows; r++) // For every row (there is 5 rows)
       {
-        blockCounter = blockCounter + 1;
+        $("#interestCell"+r+""+c).css("border-width", "2px"); // reset the style
+        $("#interestCell"+r+""+c).css("border-color", "white"); // reset the style
+        $("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
+
+
+        // Storing the interested values for bestTimes
+        if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
+        {
+          blockCounter = blockCounter + 1;
           if (r == newUpdate.rows -1) // Last row
           {
-           if (blockCounter >= minNumberOfBlocks)
-           {
-               bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
-             }
-           }
-         }
-         else
-         {
+            if (blockCounter >= minNumberOfBlocks)
+            {
+              bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
+            }
+          }
+        }
+        else
+        {
           if (blockCounter >= minNumberOfBlocks)
           {
             bestTimes.push([c,r-blockCounter, r-1]); // Add to the bestTimes
@@ -67,39 +73,33 @@ channel.bind('update', function(post) {
     console.log('@'+bestTimes);
 
 
-  // Color the interested cells using bestTimes
-  for (var i=0; i<bestTimes.length; i++) // For every bestTime
-  {
-    for (var j=0; j<=bestTimes[i][2]; j++) // For each cell in the bestTime
+    // Color the interested cells using bestTimes
+    for (var i=0; i<bestTimes.length; i++) // For every bestTime
     {
-      c = bestTimes[i][0];
-      r = bestTimes[i][1]+j;
-      $("#interestCell"+r+""+c).css("border-width", "5px");
-      $("#interestCell"+r+""+c).css("border-color", "red");
+      for (var j=0; j<=bestTimes[i][2]; j++) // For each cell in the bestTime
+      {
+        c = bestTimes[i][0];
+        r = bestTimes[i][1]+j;
+        $("#interestCell"+r+""+c).css("border-width", "5px");
+        $("#interestCell"+r+""+c).css("border-color", "red");
+      }
     }
-  }
-
-  console.log("finished")
-
-
-
-});
+    console.log("finished")
+  });
+};
 
 
 function touchStart( e ) {
   var elemId = e.currentTarget.id;
   // var box = document.getElementById(elemId);
-  //
   coords = [];
   //var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
   var saveVar = [
-  eventDates[Number($("#"+elemId).attr("data_col"))],
-  Number($("#"+elemId).attr("data_row"))+s_offset
+    eventDates[Number($("#"+elemId).attr("data_col"))],
+    Number($("#"+elemId).attr("data_row"))+s_offset
   ];
 
   coords.push(saveVar);
-
-
 
   if ($("#"+elemId ).attr("data_isSelected") == 1)
   {
@@ -133,20 +133,16 @@ function touchMove( e ) {
 
   //console.log("Move Touch - screenX:"+ e.targetTouches[0].pageX + ", screenY:"+e.targetTouches[0].pageY);
   //console.log("Move Touch - cellCols:"+ cellCols +", cellRows:"+cellRows);
-
   var colSign = 1;
   var rowSign = 1;
-
   if (cellCols < 0)
   {
     colSign = -1;
   }
-
   if (cellRows < 0)
   {
     rowSign = -1;
   }
-
   // Change the UI
   for (var x=0; x<=Math.abs(cellCols); x++)
   {
@@ -183,43 +179,41 @@ function touchMove( e ) {
 }
 
 function touchEnd( e ) {
-  var resultData = {token: getUrlVars()["token"],
-  coordinates: coords,
-  isSelecting: isSelectingCells
-};
+  var resultData = {
+    token: getUrlVars()["token"],
+    coordinates: coords,
+    isSelecting: isSelectingCells
+  };
 
   // Do ajax post
   //$.post('/newTime', resultData, function(data) {
   //console.log(resultData);
-
   //$.post('http://0.0.0.0:3000/newTime', resultData, function(data) {
-
   //$.post('http://0.0.0.0:3000/newTime', {name:"date", val:3}, function(data) {
-      //console.log("Success log:");
-      //console.log(data);
-      //}, "json");
+  //console.log("Success log:");
+  //console.log(data);
+  //}, "json");
 
 
-$.ajax({
-  type: 'POST',
-  contentType: "application/json",
-  url: '/newTime',
-  data: JSON.stringify(resultData),
-  dataType: "json",
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: '/newTime',
+    data: JSON.stringify(resultData),
+    dataType: "json",
 
-  success: function(data) {
-    console.log("Success log:");
-    console.log(data);
-    $('.saved').css('visibility', 'visible');
-    setTimeout(function() {
-      $('.saved').css('visibility', 'hidden');
-    }, 3000);
-  }
-});
+    success: function(data) {
+      console.log("Success log:");
+      console.log(data);
+      $('.saved').css('visibility', 'visible');
+      setTimeout(function() {
+        $('.saved').css('visibility', 'hidden');
+      }, 3000);
+    }
+  });
 
-
-e.preventDefault();
-return false;
+  e.preventDefault();
+  return false;
 }
 
 function getUrlVars() {
