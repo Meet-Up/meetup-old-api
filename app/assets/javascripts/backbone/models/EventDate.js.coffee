@@ -56,3 +56,7 @@ class MeetupApi.EventDateCollection extends Backbone.Collection
     date = maxEventDate.get 'end'
     new Date(1970, 1, 1, date.getHours(), date.getMinutes(), 0, 0)
 
+  getPossibleDates: () ->
+    new MeetupApi.PossibleDateCollection(@map (eventDate) ->
+      eventDate.getPossibleDate()
+    )

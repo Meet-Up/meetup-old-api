@@ -12,4 +12,3 @@ window.MeetupApi =
 
 class MeetupApi.Config
   @intervalInMs: 1000 * 60 * 30
-

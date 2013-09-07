@@ -81,3 +81,5 @@ class MeetupApi.SchedulerView extends Backbone.View
   onEnd: (e) ->
     return unless @isSelecting
     @isSelecting = false
+    @collection.trigger 'needsSavePossibleDates',
+      success: () -> console.log "foo"

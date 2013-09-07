@@ -6,6 +6,9 @@ class MeetupApi.PossibleDate extends Backbone.RelationalModel
 
   initialize: (attributes, options) ->
 
+  toJSON: () ->
+    _.omit super, 'created_at', 'updated_at'
+
 
 MeetupApi.PossibleDate.setup()
 

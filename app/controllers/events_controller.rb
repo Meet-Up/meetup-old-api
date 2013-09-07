@@ -39,7 +39,7 @@ class EventsController < ApplicationController
 		render json: @event
 	end
 
-  def add_possible_dates
+  def update_possible_dates
     event_token = EventToken.find_by_token(params[:token])
     possible_dates = params[:possible_dates]
 
