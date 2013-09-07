@@ -8,7 +8,7 @@ class TmpAuth < ActiveRecord::Base
   def create_user
     user = User.find_or_initialize_by_email(self.email)
     user.refresh_token
-    self.destroy
+    self.destroy_without_delay
     user.save
     user
   end
