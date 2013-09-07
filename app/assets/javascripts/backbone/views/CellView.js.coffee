@@ -1,6 +1,6 @@
 class MeetupApi.CellView extends Backbone.View
   attributes: () ->
-    cssClass = "cell"
+    cssClass = "cell span#{@options.widthSpan}"
     if @isSelected()
       cssClass += " selected"
     else
@@ -8,8 +8,7 @@ class MeetupApi.CellView extends Backbone.View
 
     class: cssClass
     style:
-      "height: #{@options.height}px;" +
-      "width: #{@options.width}px"
+      "height: #{@options.height}px;"
     "data-x": @options.x
     "data-y": @options.y
 
@@ -46,5 +45,5 @@ class MeetupApi.CellView extends Backbone.View
     @trigger eventName, e, @options.x, @options.y, @isSelected()
 
   render: ->
-    @$el.html
+    @$el.text 'foo'
     return this

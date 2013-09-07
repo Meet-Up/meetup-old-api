@@ -1,5 +1,5 @@
 class MeetupApi.SchedulerView extends Backbone.View
-  el: '#schedule'
+  el: 'body'
 
   isSelecting: false
   newSelection: false
@@ -9,7 +9,7 @@ class MeetupApi.SchedulerView extends Backbone.View
     y: -1
 
   events:
-    'touchmove': 'handleTouchMove'
+    'touchmove #schedule': 'handleTouchMove'
 
   initialize: (@options) ->
     @startRow = @collection.startRow()
@@ -20,12 +20,14 @@ class MeetupApi.SchedulerView extends Backbone.View
     rowsNumber = @endRow - @startRow + 1
     columnsNumber = @collection.length
 
+    widthSpan = if columnsNumber >= 3 then 3 else 6
+
     height = Math.max(80, 800 / rowsNumber)
     width = Math.min(260, 800 / columnsNumber)
 
     for y in [@startRow..@endRow]
-      container = $('<div />')
-      container.attr 'class', 'row'
+      @addTimeCell y, height
+      container = $('<div />').attr('class', 'row')
       @collection.each (eventDate, x) =>
         possibleDate = eventDate.getPossibleDate()
         cellView = @createCell
@@ -34,8 +36,15 @@ class MeetupApi.SchedulerView extends Backbone.View
           y: y
           height: height
           width: width
+          widthSpan: widthSpan
         container.append cellView.render().el
-      @$el.append container
+      @$('#schedule').append container
+
+  addTimeCell: (position, height) ->
+    minutes = if position % 2 == 0 then 0 else 30
+    time = Date.today().set({hour: Math.floor(position / 2), minute: minutes })
+    $timeCell = $('<div />').height(height).text(time.toString 'HH:mm')
+    @$('#time').append $timeCell
 
   createCell: (options) ->
     cell = new MeetupApi.CellView(options)
@@ -81,5 +90,9 @@ class MeetupApi.SchedulerView extends Backbone.View
   onEnd: (e) ->
     return unless @isSelecting
     @isSelecting = false
-    @collection.trigger 'needsSavePossibleDates',
-      success: () -> console.log "foo"
+    @collection.trigger 'needsSavePossibleDates', success: () =>
+      @$('.saved').css 'visibility', 'visible'
+      setTimeout () =>
+        console.log @$('.saved')
+        @$('.saved').css('visibility', 'hidden')
+      , 3000

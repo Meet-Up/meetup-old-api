@@ -1,12 +1,20 @@
 <div id="title">
 
 </div>
+
+<div class="saved alert-success">
+  Schedule has been saved
+</div>
+
 <div class="row">
-  <div id="schedule"></div>
+  <div id="time" class="span3">
+  </div>
+  <div id="schedule" class="span9"></div>
 </div>
 
 <script>
-window.App = window.App || {};
-App.eventContent = <%= @event.to_json.html_safe %>;
-App.eventDates = <%= @event_dates.to_json(include: :possible_dates).html_safe %>;
+  window.App = window.App || {};
+  App.eventContent = <%= @event.to_json.html_safe %>;
+  App.eventDates = <%= @event_dates.to_json(include: :possible_dates).html_safe %>;
 </script>
+</div>
