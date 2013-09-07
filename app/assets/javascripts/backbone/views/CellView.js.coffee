@@ -1,15 +1,27 @@
 class MeetupApi.CellView extends Backbone.View
-  template: JST["backbone/templates/cell"]
+  attributes: () ->
+    cssClass = "cell"
+    if @model.get('possible_time')[@options.index] == "1"
+      cssClass += " selected"
+    else
+      cssClass += " unselected"
+
+    class: cssClass
+    style:
+      "height: #{@options.height}px;" +
+      "width: #{@options.width}px"
 
   events:
-    'dragstart .cell': 'onDragStart'
-    'drag .cell': 'onDrag'
-    'dragend #rootDiv': 'onDragEnd'
+    'dragstart': 'notifyEvent'
+    'drag': 'notifyEvent'
+    'dragend': 'notifyEvent'
+
+  initialize: (options) ->
 
   notifyEvent: (e) ->
     console.log e
-    trigger e.type, @model
+    @trigger e.type, @model
 
   render: ->
-    @$el.html @template(@model.toJSON())
+    @$el.html
     return this

@@ -16,22 +16,30 @@ class MeetupApi.EventDate extends Backbone.RelationalModel
     response.end = new Date(response.end * 1000)
     response
 
+  getPossibleDate: () ->
+    possible_dates = @get 'possible_dates'
+    if possible_dates.length == 0
+      possible_date = new MeetupApi.PossibleDate
+        event_date_id: @get 'id'
+      @get('possible_dates').add possible_date
+    possible_dates.first()
+
+
 MeetupApi.EventDate.setup()
 
 class MeetupApi.EventDateCollection extends Backbone.Collection
   model: MeetupApi.EventDate
 
-  neededRows: () ->
+  getNeededColumns: () ->
     @length
 
-  neededColumns: () ->
-    neededColumns = 0
-    date = @getFastestTime().getTime()
-    end = @getLatestTime().getTime()
-    while date <= end
-      date += MeetupApi.Config.intervalInMs
-      neededColumns += 1
-    neededColumns
+  startRow: () ->
+    startTime = @getFastestTime()
+    startTime.getHours() * 2 + (startTime.getMinutes() == 30)
+
+  endRow: () ->
+    endTime = @getLatestTime()
+    endTime.getHours() * 2 + (endTime.getMinutes() == 30)
 
   getFastestTime: () ->
     minEventDate = @min (eventDate) ->
