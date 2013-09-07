@@ -9,80 +9,85 @@ var coords = [];
 
 // Connecting to websocket
 var dispatcher = new WebSocketRails('localhost:3000/websocket');
-var channel = dispatcher.subscribe('newTimes');
-channel.bind('update', function(post) {
-  var newUpdate = $.parseJSON(post);
+var channel = dispatcher.subscribe('schedule');
+
+channel.bind('update', function(data) {
+  var newUpdate = $.parseJSON(data);
   //console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.rows+', Data:'+newUpdate.data);
-
-  var maxInterestVal = 0;
-  for (var c=0; c<newUpdate.cols; c++)
-  {
-    for (var r=0; r<newUpdate.rows; r++)
+  console.log(newUpdate);
+  console.log(newUpdate.event_id);
+  console.log(event_id);
+  if (newUpdate.event_id == event_id) {
+    var maxInterestVal = 0;
+    var max = 0;
+    for (var c=0; c<cols; c++)
     {
-      if (newUpdate.data[r][c] > maxInterestVal)
+    	for (var r=0; r<=rows; r++)
       {
-        maxInterestVal = newUpdate.data[r][c];
-      }
-    }
-  }
-
-  var minNumberOfBlocks = 3;
-  var percentageOfPpl = 0.5;
-  var bestTimes = []
-  var blockCounter = 0;
-
-  // Update the UI to reflect the interest level
-  for (var c=0; c<newUpdate.cols; c++) // For every column (there is 5 columns)
-  {
-    blockCounter = 0; // Reset the counter to 0
-    for (var r=0; r<newUpdate.rows; r++) // For every row (there is 5 rows)
-    {
-      $("#interestCell"+r+""+c).css("border-width", "2px"); // reset the style
-      $("#interestCell"+r+""+c).css("border-color", "white"); // reset the style
-      $("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
-
-
-      // Storing the interested values for bestTimes
-      if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
-      {
-        blockCounter = blockCounter + 1;
-          if (r == newUpdate.rows -1) // Last row
-          {
-           if (blockCounter >= minNumberOfBlocks)
-           {
-               bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
-             }
-           }
-         }
-         else
-         {
-          if (blockCounter >= minNumberOfBlocks)
-          {
-            bestTimes.push([c,r-blockCounter, r-1]); // Add to the bestTimes
-          }
-          blockCounter = 0;
+  	  //if (newUpdate.data[r][c] > maxInterestVal)
+  	  if (newUpdate.data[c][r] > maxInterestVal)
+        {
+  		//max = newUpdate.data[r][c];
+  		maxInterestVal = newUpdate.data[c][r];
         }
       }
     }
-    console.log('@'+bestTimes);
 
+    var minNumberOfBlocks = 3;
+    var percentageOfPpl = 0.5;
+    var bestTimes = []
+    var blockCounter = 0;
 
-  // Color the interested cells using bestTimes
-  for (var i=0; i<bestTimes.length; i++) // For every bestTime
-  {
-    for (var j=0; j<=bestTimes[i][2]; j++) // For each cell in the bestTime
+    // Update the UI to reflect the interest level
+    for (var c=0; c<cols; c++) // For every column (there is 5 columns)
     {
-      c = bestTimes[i][0];
-      r = bestTimes[i][1]+j;
-      $("#interestCell"+r+""+c).css("border-width", "5px");
-      $("#interestCell"+r+""+c).css("border-color", "red");
+      blockCounter = 0; // Reset the counter to 0
+      for (var r=0; r<=rows; r++) // For every row (there is 5 rows)
+      {
+        $("#interestCell"+r+""+c).css("border-width", "2px"); // reset the style
+        $("#interestCell"+r+""+c).css("border-color", "white"); // reset the style
+  	  //$("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
+  	  $("#interestCell"+r+""+c).css("opacity", newUpdate.data[c][r]/maxInterestVal); // change the opacity
+
+        // Storing the interested values for bestTimes
+  	  //if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
+  	  if (newUpdate.data[c][r]/maxInterestVal > percentageOfPpl)
+        {
+          blockCounter = blockCounter + 1;
+            if (r == rows -1) // Last row
+            {
+             if (blockCounter >= minNumberOfBlocks)
+             {
+                 bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
+               }
+             }
+           }
+           else
+           {
+            if (blockCounter >= minNumberOfBlocks)
+            {
+              bestTimes.push([c,r-blockCounter, r-1]); // Add to the bestTimes
+            }
+            blockCounter = 0;
+          }
+        }
+      }
+      //console.log('@'+bestTimes);
+
+
+    // Color the interested cells using bestTimes
+    for (var i=0; i<bestTimes.length; i++) // For every bestTime
+    {
+      for (var j=0; j<=bestTimes[i][2]; j++) // For each cell in the bestTime
+      {
+        c = bestTimes[i][0];
+        r = bestTimes[i][1]+j;
+        $("#interestCell"+r+""+c).css("border-width", "5px");
+        $("#interestCell"+r+""+c).css("border-color", "red");
+      }
     }
-  }
-
-  console.log("finished")
-
-
-
+    //console.log("finished")
+    }
 });
 
 
@@ -183,9 +188,15 @@ function touchMove( e ) {
 }
 
 function touchEnd( e ) {
-  var resultData = {token: getUrlVars()["token"],
+  var resultData = {
+  token: getUrlVars()["token"],
   coordinates: coords,
-  isSelecting: isSelectingCells
+  isSelecting: isSelectingCells,
+  event: {
+	  dates_id: eventDates,
+	  s_time: s_time,
+	  e_time: e_time
+  }
 };
 
   // Do ajax post

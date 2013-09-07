@@ -9,8 +9,8 @@ MeetupApi::Application.routes.draw do
 
   match 'scheduler', to: 'scheduler#respondToToken'
 
-  #match 'newTime' => 'scheduler#postNewTimes'
-  post 'newTime' => 'scheduler#newTimes'
+  #post 'newTime' => 'scheduler#newTimes'
+  post 'newTime' => 'scheduler#post_possible_times'
 
 
   match 'searchs/event_detail', to: 'searchs#event_detail', via: [:post]
