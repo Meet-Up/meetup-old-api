@@ -1,0 +1,6 @@
+<div id="schedule"></div>
+
+<script>
+window.App = window.App || {};
+App.eventDates = <%= @event_dates.to_json(include: :possible_dates).html_safe %>;
+</script>

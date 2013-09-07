@@ -20,6 +20,9 @@ MeetupApi::Application.routes.draw do
     member do
       post 'add_possible_dates'
     end
+    collection do
+      get 'schedule'
+    end
   end
   resources :possible_dates
 

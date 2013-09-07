@@ -1,8 +1,8 @@
 $(function() {
-  init();
+  // init();
   // $('.cell').bind('touchstart', touchStart);
   // $('.cell').bind('touchmove', touchMove);
-  $('#rootDiv').bind('touchend', touchEnd);
+  // $('#rootDiv').bind('touchend', touchEnd);
 });
 
 var selectedColor = App.selectedColor;
