@@ -3,6 +3,7 @@ class SchedulerController < ApplicationController
   IDEALSTARTTIME=10.5
   IDEALENDTIME=18
 
+
   def respondToToken
 
     if params[:token].nil?

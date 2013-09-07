@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
 	TOKEN_LENGTH = 20
 
-  before_filter :auth_user!
+  before_filter :auth_user!, except: [:add_possible_dates]
 
   def index
     @event = Event.includes([:creator, :event_dates])
@@ -38,4 +38,17 @@ class EventsController < ApplicationController
 		@event = Event.find(params[:id])
 		render json: @event
 	end
+
+  def add_possible_dates
+    event_token = EventToken.find_by_token(params[:token])
+    possible_dates = params[:possible_dates]
+
+    unless event_token.nil? || possible_dates.nil? || event_token.event.id != params[:id].to_i
+      saved_dates = PossibleDate.save_for_token event_token, possible_dates
+      render json: saved_dates
+    else
+      render json: { errors: 'wrong parameters' }
+    end
+  end
+
 end
