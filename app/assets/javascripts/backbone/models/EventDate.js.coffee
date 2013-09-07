@@ -21,15 +21,30 @@ MeetupApi.EventDate.setup()
 class MeetupApi.EventDateCollection extends Backbone.Collection
   model: MeetupApi.EventDate
 
-  fastestTime: () ->
+  neededRows: () ->
+    @length
+
+  neededColumns: () ->
+    neededColumns = 0
+    date = @getFastestTime().getTime()
+    end = @getLatestTime().getTime()
+    while date <= end
+      date += MeetupApi.Config.intervalInMs
+      neededColumns += 1
+    neededColumns
+
+  getFastestTime: () ->
     minEventDate = @min (eventDate) ->
       startDate = eventDate.get 'start'
       new Date(1970, 1, 1, startDate.getHours(), startDate.getMinutes(), 0, 0)
-    minEventDate.get 'start'
+    date = minEventDate.get 'start'
+    new Date(1970, 1, 1, date.getHours(), date.getMinutes(), 0, 0)
 
-  latestTime: () ->
+
+  getLatestTime: () ->
     maxEventDate = @max (eventDate) ->
       endDate = eventDate.get 'end'
       new Date(1970, 1, 1, endDate.getHours(), endDate.getMinutes(), 0, 0)
-    maxEventDate.get 'end'
+    date = maxEventDate.get 'end'
+    new Date(1970, 1, 1, date.getHours(), date.getMinutes(), 0, 0)
 

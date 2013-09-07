@@ -9,3 +9,7 @@ window.MeetupApi =
   Collections: {}
   Routers: {}
   Views: {}
+
+class MeetupApi.Config
+  @intervalInMs: 1000 * 60 * 30
+

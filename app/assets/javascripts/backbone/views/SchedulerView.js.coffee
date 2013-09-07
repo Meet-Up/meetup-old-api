@@ -3,10 +3,7 @@ class MeetupApi.SchedulerView extends Backbone.View
 
   initialize: (@options) ->
     @render()
-    @rowsNumber = @options.rowsNumber
-    @columnsNumber = @options.columnsNumber
-    console.log @rowsNumber
-    console.log @columnsNumber
+
 
   dragStartCell: [-1, -1]
 
