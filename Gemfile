@@ -22,4 +22,5 @@ gem 'thin'
 
 gem 'delayed_job_active_record'
 
-gem 'rails-backbone'
+gem 'backbone-rails'
+gem 'backbone-relational-rails'

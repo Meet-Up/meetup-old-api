@@ -32,7 +32,9 @@
 		<div style = "width:<%= @cellWidth %>px" class="date_label"><%= @dates[i] %></div>
 	<% end %>
 
-	<div id="rootDiv" ontouchend="touchEnd(event)">
+	<div id="schedule"></div>
+
+	<div id="rootDiv">
 	<% for row in 0..@rows %>
 		<div style="font-size:0px;vertical-align:top">
 		<% for col in 0..@cols %>
@@ -98,6 +100,9 @@
 
 <script>
 window.App = window.App || {};
+App.eventDates = <%= @event_dates.to_json(include: :possible_dates).html_safe %>;
+App.columnsNumber = <%= @cols %>;
+App.rowsNumber = <%= @rows %>;
 App.width = <%= @cellWidth %>;
 App.height = <%= @cellHeight %>;
 App.unselectedColor = "<%= @unselectedColor %>";

@@ -1,3 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+window.eventDateCollection = new MeetupApi.EventDateCollection App.eventDates
+eventDateCollection.each (eventDate) ->
+  console.log eventDate.get('possible_dates')
+
+new MeetupApi.SchedulerView
+  rowsNumber: App.rowsNumber
+  columnsNumber: App.columnsNumber

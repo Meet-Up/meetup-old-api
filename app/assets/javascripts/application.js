@@ -16,7 +16,6 @@
 //= require_tree ./vendors
 //= require underscore
 //= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
+//= require backbone-relational
 //= require backbone/meetup_api
 //= require_tree .

@@ -37,6 +37,10 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     arel (3.0.2)
+    backbone-rails (1.0.0.1)
+      rails (>= 3.0.0)
+    backbone-relational-rails (0.8.6)
+      railties (>= 3.1)
     builder (3.0.4)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -51,7 +55,6 @@ GEM
     delayed_job_active_record (0.4.4)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
-    ejs (1.0.0)
     em-synchrony (1.0.3)
       eventmachine (>= 1.0.0.beta.1)
     erubis (2.7.0)
@@ -89,10 +92,6 @@ GEM
       activesupport (= 3.2.13)
       bundler (~> 1.0)
       railties (= 3.2.13)
-    rails-backbone (0.7.2)
-      coffee-script (~> 2.2.0)
-      ejs (~> 1.0.0)
-      railties (>= 3.1.0)
     railties (3.2.13)
       actionpack (= 3.2.13)
       activesupport (= 3.2.13)
@@ -143,11 +142,12 @@ PLATFORMS
 
 DEPENDENCIES
   anjlab-bootstrap-rails!
+  backbone-rails
+  backbone-relational-rails
   coffee-rails (~> 3.2.1)
   delayed_job_active_record
   jquery-rails
   rails (= 3.2.13)
-  rails-backbone
   sass-rails (~> 3.2.3)
   sqlite3
   thin

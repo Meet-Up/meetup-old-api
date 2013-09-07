@@ -1,5 +1,8 @@
 $(function() {
   init();
+  // $('.cell').bind('touchstart', touchStart);
+  // $('.cell').bind('touchmove', touchMove);
+  $('#rootDiv').bind('touchend', touchEnd);
 });
 
 var selectedColor = App.selectedColor;
@@ -90,7 +93,7 @@ var init = function() {
 
 
 function touchStart( e ) {
-  var elemId = e.currentTarget.id;
+  var elemId = e.target.id;
   // var box = document.getElementById(elemId);
   coords = [];
   //var saveVar = "("+$("#"+elemId).attr("data_row")+","+$("#"+elemId).attr("data_col")+")";
@@ -124,7 +127,7 @@ function touchStart( e ) {
 }
 
 function touchMove( e ) {
-  var elemId = e.currentTarget.id;
+  var elemId = e.target.id;
   var box = document.getElementById(elemId);
   var cur_col = parseInt(box.getAttribute("data_col"));
   var cur_row = parseInt(box.getAttribute("data_row"));
