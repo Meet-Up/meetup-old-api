@@ -5,10 +5,7 @@ class Scheduler
     @view = new MeetupApi.SchedulerView
               rowsNumber: App.rowsNumber
               columnsNumber: App.columnsNumber
-    @eventDates.each (eventDate) ->
-      console.log eventDate.get('start')
-      console.log eventDate.get('end')
-
-
+    console.log @eventDates.fastestTime()
+    console.log @eventDates.latestTime()
 
 new Scheduler App.eventDates
