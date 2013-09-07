@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require websocket_rails/main
-//= require_tree ./vendors
 //= require underscore
 //= require backbone
 //= require backbone-relational
