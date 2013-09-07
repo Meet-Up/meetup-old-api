@@ -10,11 +10,15 @@ class MeetupApi.CellView extends Backbone.View
     style:
       "height: #{@options.height}px;" +
       "width: #{@options.width}px"
+    "data-x": @options.x
+    "data-y": @options.y
 
   events:
     'mousedown': 'notifyEvent'
     'mousemove': 'notifyEvent'
     'mouseup': 'notifyEvent'
+    'touchstart': 'notifyEvent'
+    'touchend': 'notifyEvent'
 
   initialize: (options) ->
     @model.on 'change', @updateCss, this
@@ -33,13 +37,13 @@ class MeetupApi.CellView extends Backbone.View
   notifyEvent: (e) ->
     e.preventDefault()
     eventName = ""
-    if e.type == 'mousedown'
+    if e.type == 'mousedown' or e.type == 'touchstart'
       eventName = 'start'
     else if e.type == 'mousemove'
       eventName = 'move'
-    else
+    else if e.type == 'mouseup' or e.type == 'touchend'
       eventName = 'end'
-    @trigger eventName, e, @model, @options.x, @options.y, @isSelected()
+    @trigger eventName, e, @options.x, @options.y, @isSelected()
 
   render: ->
     @$el.html

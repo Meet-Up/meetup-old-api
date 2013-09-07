@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require_tree ./libs
 //= require websocket_rails/main
 //= require underscore
 //= require backbone

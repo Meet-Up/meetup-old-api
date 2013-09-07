@@ -8,6 +8,9 @@ class MeetupApi.SchedulerView extends Backbone.View
     x: -1
     y: -1
 
+  events:
+    'touchmove': 'handleTouchMove'
+
   initialize: (@options) ->
     @startRow = @collection.startRow()
     @endRow = @collection.endRow()
@@ -41,15 +44,25 @@ class MeetupApi.SchedulerView extends Backbone.View
     cell.on 'end', @onEnd, this
     cell
 
-  onStart: (e, model, x, y, isSelected) ->
+  handleTouchMove: (e) ->
+    e.preventDefault()
+    $elem = @getElement e.originalEvent.changedTouches
+    x = $elem.attr('data-x')
+    y = $elem.attr('data-y')
+    @onMove e, x, y
+
+  getElement: (changedTouches) ->
+    [x, y] = [changedTouches[0].pageX, changedTouches[0].pageY]
+    $.nearest({x: x, y: y}, 'div.cell')
+
+  onStart: (e, x, y, isSelected) ->
     return if @isSelecting
     @dragStartPoint.x = x
     @dragStartPoint.y = y
     @isSelecting = true
     @newSelection = !isSelected
 
-
-  onMove: (e, model, x, y) ->
+  onMove: (e, x, y) ->
     return unless @isSelecting
     startX = Math.min(x, @dragStartPoint.x)
     startY = Math.min(y, @dragStartPoint.y)
@@ -65,6 +78,6 @@ class MeetupApi.SchedulerView extends Backbone.View
         possible_times[row] = timeValue
       possible_date.set 'possible_time', possible_times.join('')
 
-  onEnd: (e, model, x, y) ->
+  onEnd: (e) ->
     return unless @isSelecting
     @isSelecting = false
