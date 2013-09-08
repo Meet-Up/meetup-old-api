@@ -40,4 +40,10 @@ class EventsController < ApplicationController
 		@event = Event.find(params[:id])
 		render json: @event
 	end
+
+  def participants
+    @event = Event.find(params[:id])
+    @participants = User.participants(@event.id)
+    render json: @participants.to_json(include: :possible_dates)
+  end
 end

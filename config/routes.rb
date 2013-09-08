@@ -16,7 +16,11 @@ MeetupApi::Application.routes.draw do
   match 'searchs/event_detail', to: 'searchs#event_detail', via: [:post]
   match 'searchs/events', to: 'searchs#events', via: [:post]
 
-  resources :events
+  resources :events do
+    member do
+      get 'participants'
+    end
+  end
   resources :possible_dates
 
 end
