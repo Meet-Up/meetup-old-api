@@ -14,9 +14,9 @@ var channel = dispatcher.subscribe('schedule');
 channel.bind('update', function(data) {
   var newUpdate = $.parseJSON(data);
   //console.log('Cols: '+newUpdate.cols+', Rows: '+newUpdate.rows+', Data:'+newUpdate.data);
-  console.log(newUpdate);
-  console.log(newUpdate.event_id);
-  console.log(event_id);
+  //console.log(newUpdate);
+  //console.log(newUpdate.event_id);
+  //console.log(event_id);
   if (newUpdate.event_id == event_id) {
     var maxInterestVal = 0;
     var max = 0;
@@ -34,7 +34,7 @@ channel.bind('update', function(data) {
     }
 
     var minNumberOfBlocks = 3;
-    var percentageOfPpl = 0.5;
+    var percentageOfPpl = 0.40;
     var bestTimes = []
     var blockCounter = 0;
 
@@ -46,33 +46,31 @@ channel.bind('update', function(data) {
       {
         $("#interestCell"+r+""+c).css("border-width", "2px"); // reset the style
         $("#interestCell"+r+""+c).css("border-color", "white"); // reset the style
-  	  //$("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
-  	  $("#interestCell"+r+""+c).css("opacity", newUpdate.data[c][r]/maxInterestVal); // change the opacity
+  	    //$("#interestCell"+r+""+c).css("opacity", newUpdate.data[r][c]/maxInterestVal); // change the opacity
+  	    $("#interestCell"+r+""+c).css("opacity", newUpdate.data[c][r]/maxInterestVal); // change the opacity
 
         // Storing the interested values for bestTimes
   	  //if (newUpdate.data[r][c]/maxInterestVal > percentageOfPpl)
   	  if (newUpdate.data[c][r]/maxInterestVal > percentageOfPpl)
-        {
-          blockCounter = blockCounter + 1;
-            if (r == rows -1) // Last row
-            {
-             if (blockCounter >= minNumberOfBlocks)
-             {
-                 bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
-               }
-             }
-           }
-           else
-           {
-            if (blockCounter >= minNumberOfBlocks)
-            {
-              bestTimes.push([c,r-blockCounter, r-1]); // Add to the bestTimes
-            }
-            blockCounter = 0;
-          }
+	  {
+		  blockCounter = blockCounter + 1;
+			if (r == rows ) // Last row
+			{
+			 if (blockCounter >= minNumberOfBlocks)
+			 {
+				 bestTimes.push([c,r-blockCounter+1, r]); // Add to the bestTimes
+			   }
+			 }
+		   } else {
+			if (blockCounter >= minNumberOfBlocks)
+			{
+			  bestTimes.push([c,r-blockCounter, r-1]); // Add to the bestTimes
+			}
+			blockCounter = 0;
+		  }
         }
       }
-      //console.log('@'+bestTimes);
+	  console.log('@'+bestTimes);
 
 
     // Color the interested cells using bestTimes
