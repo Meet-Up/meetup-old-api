@@ -9,8 +9,10 @@ class EventsController < ApplicationController
   end
 
   def create
-    users = params[:event].delete(:users)
-	  @event = @user.created_events.build(params[:event])
+    event_param = params[:event]
+    users = event_param.delete(:users)
+    event_param[:event_dates_attributes] = event_param.delete(:event_dates) if event_param.has_key? :event_dates
+	  @event = @user.created_events.build(event_param)
 	  if @event.save
 		  unless users.nil?
 			  users.each do |mail|
