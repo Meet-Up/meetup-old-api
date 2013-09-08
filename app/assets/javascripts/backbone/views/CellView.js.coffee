@@ -45,5 +45,4 @@ class MeetupApi.CellView extends Backbone.View
     @trigger eventName, e, @options.x, @options.y, @isSelected()
 
   render: ->
-    @$el.text 'foo'
     return this

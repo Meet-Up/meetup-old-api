@@ -93,6 +93,5 @@ class MeetupApi.SchedulerView extends Backbone.View
     @collection.trigger 'needsSavePossibleDates', success: () =>
       @$('.saved').css 'visibility', 'visible'
       setTimeout () =>
-        console.log @$('.saved')
         @$('.saved').css('visibility', 'hidden')
       , 3000
