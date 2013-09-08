@@ -8,7 +8,8 @@ var isSelectingCells = true;
 var coords = [];
 
 // Connecting to websocket
-var dispatcher = new WebSocketRails('localhost:3000/websocket');
+//var dispatcher = new WebSocketRails('localhost:3000/websocket');
+var dispatcher = new WebSocketRails('www16179ui.sakura.ne.jp/websocket');
 var channel = dispatcher.subscribe('schedule');
 
 channel.bind('update', function(data) {
