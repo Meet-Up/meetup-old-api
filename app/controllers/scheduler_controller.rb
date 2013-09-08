@@ -13,6 +13,7 @@ class SchedulerController < ApplicationController
 			@description="大江戸ハッカソンの打ち上げです"
 			@dates_id = [1,2,3,4,5]
 			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
+			@event_id = 0
 		else
 			e = EventToken.where(:token => params[:token]).last
 			poss = PossibleDate.where(:event_id => e.event_id, :user_id => e.user_id)
@@ -57,7 +58,7 @@ class SchedulerController < ApplicationController
 
 			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
 			unless poss.empty?
-				@dates.each_with_index { |d,i| 
+				@dates.each_with_index { |d,i|
 					unless poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.nil?
 						@saved_data[i] = poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.possible_time[@s_time*2..@e_time*2]
 					else
@@ -118,7 +119,7 @@ class SchedulerController < ApplicationController
 		saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
 		tmp_score = Hash.new { |hash, key| hash[key] = Hash.new(0)}
 		unless poss.empty?
-			parm[:dates_id].each { |d| 
+			parm[:dates_id].each { |d|
 				unless poss.find{ |p| p.event_date_id == d}.nil?
 					poss.select{ |p| p.event_date_id == d}.each{ |e_p|
 						tmp_str = e_p.possible_time[parm[:s_time]*2..parm[:e_time]*2]
