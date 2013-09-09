@@ -20,13 +20,12 @@ class MeetupApi.SchedulerView extends Backbone.View
     rowsNumber = @endRow - @startRow + 1
     columnsNumber = @collection.length
 
-    widthSpan = if columnsNumber >= 3 then 2 else 4
-
+    widthSpan = Math.floor(12 / columnsNumber)
     height = Math.max(80, 800 / rowsNumber)
 
     for y in [@startRow..@endRow]
       @addTimeCell y, height
-      container = $('<div />').attr('class', 'row')
+      container = $('<div />').attr('class', 'row-fluid')
       @collection.each (eventDate, x) =>
         possibleDate = eventDate.getPossibleDate()
         cellView = @createCell
