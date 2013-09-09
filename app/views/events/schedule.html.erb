@@ -1,5 +1,4 @@
 <div id="title">
-
 </div>
 
 <div class="saved alert-success">
@@ -7,9 +6,9 @@
 </div>
 
 <div class="row">
-  <div id="time" class="span3">
+  <div id="time" class="span1">
   </div>
-  <div id="schedule" class="span9"></div>
+  <div id="schedule" class="span11"></div>
 </div>
 
 <script>
@@ -18,3 +17,4 @@
   App.eventDates = <%= @event_dates.to_json(include: :possible_dates).html_safe %>;
 </script>
 </div>
+

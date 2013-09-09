@@ -1,4 +1,4 @@
-class BasicSaver extends Backbone.Model
+class MeetupApi.BasicSaver extends Backbone.Model
   toJSON: () ->
     json =
       token: $.getUrlVars()['token']

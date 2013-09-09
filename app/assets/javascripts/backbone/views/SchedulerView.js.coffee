@@ -20,10 +20,9 @@ class MeetupApi.SchedulerView extends Backbone.View
     rowsNumber = @endRow - @startRow + 1
     columnsNumber = @collection.length
 
-    widthSpan = if columnsNumber >= 3 then 3 else 6
+    widthSpan = if columnsNumber >= 3 then 2 else 4
 
     height = Math.max(80, 800 / rowsNumber)
-    width = Math.min(260, 800 / columnsNumber)
 
     for y in [@startRow..@endRow]
       @addTimeCell y, height
@@ -35,7 +34,6 @@ class MeetupApi.SchedulerView extends Backbone.View
           x: x
           y: y
           height: height
-          width: width
           widthSpan: widthSpan
         container.append cellView.render().el
       @$('#schedule').append container
