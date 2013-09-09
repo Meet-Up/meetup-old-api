@@ -1,156 +1,167 @@
 class SchedulerController < ApplicationController
-  IDEALDATES=["1/1","1/2","1/3","1/4","1/5"]
-  IDEALSTARTTIME=10.5
-  IDEALENDTIME=18
+	IDEALDATES=["1/1","1/2","1/3","1/4","1/5"]
+	IDEALSTARTTIME=10.5
+	IDEALENDTIME=18
 
+	def respondToToken
 
-  def respondToToken
+		if params[:token].nil?
+			@dates=IDEALDATES
+			@s_time=IDEALSTARTTIME
+			@e_time=IDEALENDTIME
+			@name = "大江戸ハッカソン打ち上げパーティー"
+			@description="大江戸ハッカソンの打ち上げです"
+			@dates_id = [1,2,3,4,5]
+			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
+			@event_id = 0
+		else
+			e = EventToken.where(:token => params[:token]).last
+			poss = PossibleDate.where(:event_id => e.event_id, :user_id => e.user_id)
 
-    if params[:token].nil?
-      @dates=IDEALDATES
-      @s_time=IDEALSTARTTIME
-      @e_time=IDEALENDTIME
-      @name = "大江戸ハッカソン打ち上げパーティー"
-      @description="大江戸ハッカソンの打ち上げです"
-      @dates_id = [1,2,3,4,5]
-      @saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
-    else
-      @event_token = EventToken.find_by_token(params[:token])
-      @user = @event_token.user
-      @event = @event_token.event
-      @possible_dates = PossibleDate.where(:event_id => @event_token.event_id, :user_id => @event_token.user_id)
-      @event_dates = @event.event_dates.includes(:possible_dates).where('possible_dates.user_id', @user.id)
+			dates_tmp = []
+			time_tmp = []
 
-      dates_tmp = []
-      time_tmp = []
+			dates_id_tmp = {}
 
-      dates_id_tmp = {}
+			e.event.event_dates.each { |d|
+				date_tmp = Time.at(d.start)
+				dates_tmp << date_tmp.strftime("%m/%d")
+				if date_tmp.strftime("%M").to_i >= 30
+					time_tmp << date_tmp.strftime("%H") + ".5"
+				else
+					time_tmp << date_tmp.strftime("%H")
+				end
 
-      @event_token.event.event_dates.each do |d|
-        date_tmp = Time.at(d.start)
-        dates_tmp << date_tmp.strftime("%m/%d")
-        if date_tmp.strftime("%M").to_i >= 30
-          time_tmp << date_tmp.strftime("%H") + ".5"
-        else
-          time_tmp << date_tmp.strftime("%H")
-        end
+				dates_id_tmp[date_tmp.strftime("%m/%d")] = d.id
 
-        dates_id_tmp[date_tmp.strftime("%m/%d")] = d.id
+				date_tmp = Time.at(d.end)
+				dates_tmp << date_tmp.strftime("%m/%d")
+				if date_tmp.strftime("%M").to_i >= 30
+					time_tmp << date_tmp.strftime("%H") + ".5"
+				else
+					time_tmp << date_tmp.strftime("%H")
+				end
 
-        date_tmp = Time.at(d.end)
-        dates_tmp << date_tmp.strftime("%m/%d")
-        if date_tmp.strftime("%M").to_i >= 30
-          time_tmp << date_tmp.strftime("%H") + ".5"
-        else
-          time_tmp << date_tmp.strftime("%H")
-        end
-      end
+			}
 
-      @dates = dates_tmp.uniq.sort
-      @s_time = time_tmp.min.to_i
-      @e_time = time_tmp.max.to_i
-      @name = @event_token.event.name
-      @description = @event_token.event.description
+			@dates=dates_tmp.uniq.sort
+			@s_time=time_tmp.min.to_i
+			@e_time=time_tmp.max.to_i
+			@name=e.event.name
+			@description=e.event.description
+			@event_id=e.event.id
 
-      @dates_id = []
-      @dates.each do |d|
-        @dates_id << dates_id_tmp[d]
-      end
+			@dates_id = []
+			@dates.each { |d|
+				@dates_id << dates_id_tmp[d]
+			}
 
-      @saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
-      unless @possible_dates.empty?
-        @dates.each_with_index do |d,i|
-          unless @possible_dates.find{ |p| p.event_date_id == dates_id_tmp[d]}.nil?
-            @saved_data[i] = @possible_dates.find{ |p| p.event_date_id == dates_id_tmp[d]}.possible_time[@s_time*2..@e_time*2]
-          else
-            @saved_data[i][@s_time*2..@e_time*2]
-          end
-        end
-      end
+			@saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
+			unless poss.empty?
+				@dates.each_with_index { |d,i|
+					unless poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.nil?
+						@saved_data[i] = poss.find{ |p| p.event_date_id == dates_id_tmp[d]}.possible_time[@s_time*2..@e_time*2]
+					else
+						@saved_data[i] = @saved_data[i][@s_time*2..@e_time*2]
+					end
+				}
+			end
 
-    end
+		end
 
+		@rows = (@e_time - @s_time) * 2
+		@cols = @dates.length
+		@cellWidth = [800/(@cols+1),270].min
+		#@cellHeight =[1200/(@rows+1),100].max
+		@cellHeight =[800/(@rows+1),80].max
+		@unselectedColor = "#DCDDDD"
+		@selectedColor = "#339933"
+		@interestColor = "#586B29"
 
-    #@rows = (@e_time - @s_time) * 2
-    #@cols = @dates.length - 1
-    #@cellWidth = [780/(@cols+1),270].min
-    #@cellHeight =[1200/(@rows+1),100].max
-    #@unselectedColor = "rgb(180, 180, 180)"
-    #@selectedColor = "rgb(80, 80, 80)"
+		render "scheduler/main"
 
-    @rows = (@e_time - @s_time) * 2 - 1
-    @cols = @dates.length - 1
-    @cellWidth = [800/(@cols+1),270].min
-    #@cellHeight =[1200/(@rows+1),100].max
-    @cellHeight =[800/(@rows+1),80].max
-    @unselectedColor = "#DCDDDD"
-    @selectedColor = "#339933"
-    @interestColor = "#586B29"
+	end
 
-    render "scheduler/main"
+	#def newTimes
+	def post_possible_times
+		e = EventToken.where(:token => params[:token]).last
+		p_dates = PossibleDate.where(:event_id => e.event_id, :user_id => e.user_id)
+		bit = params[:isSelecting] ? "1":"0"
 
-  end
+		param = params[:coordinates]
+		d = Hash.new {|hash, key| hash[key] = []}
+		param.each { |dates_id, date_times|
+			d[dates_id] << date_times
+		}
 
-  def newTimes
-    e = EventToken.where(:token => params[:token]).last
-    p_dates = PossibleDate.where(:event_id => e.event_id, :user_id => e.user_id)
-    bit = params[:isSelecting] ? "1":"0"
+		possible_times = Hash.new { |hash, key| hash[key] = "0"*48 }
+		p_dates.each { |p|
+			possible_times[p.event_date_id] = p.possible_time
+		}
 
-    param = params[:coordinates]
-    d = Hash.new {|hash, key| hash[key] = []}
-    param.each { |dates_id, date_times|
-      d[dates_id] << date_times
-    }
+		d.each { |date_id,date_times|
+			date_times.each { |t|
+				possible_times[date_id][t] = bit
+			}
+		}
 
-    possible_times = Hash.new { |hash, key| hash[key] = "0"*48 }
-    p_dates.each { |p|
-      possible_times[p.event_date_id] = p.possible_time
-    }
+		possible_times.each { |k,v|
+			p = PossibleDate.where(:event_id => e.event_id,:user_id => e.user_id,:event_date_id => k).last
+			if p.nil?
+				PossibleDate.create(:event_id => e.event_id,:user_id => e.user_id,:event_date_id => k,:possible_time => v)
+			else
+				p.update_attribute(:possible_time, v)
+			end
+		}
 
-    d.each { |date_id,date_times|
-      date_times.each { |t|
-        possible_times[date_id][t] = bit
-      }
-    }
+		poss = PossibleDate.where(:event_id => e.event.id)
+		parm = params[:event]
+		saved_data = Hash.new { |hash, key| hash[key] = "0"*48 }
+		tmp_score = Hash.new { |hash, key| hash[key] = Hash.new(0)}
+		unless poss.empty?
+			parm[:dates_id].each { |d|
+				unless poss.find{ |p| p.event_date_id == d}.nil?
+					poss.select{ |p| p.event_date_id == d}.each{ |e_p|
+						tmp_str = e_p.possible_time[parm[:s_time]*2..parm[:e_time]*2]
+						for i in 0..tmp_str.length-1
+							tmp_score[d][i] += tmp_str[i].to_i
+						end
+					}
+				else
+					for i in 0..tmp_str.length-1
+						tmp_score[d][i] = 0
+					end
+				end
+			}
+		end
+		result_score = []
+		i = 0
+		tmp_score.sort.each { |k,v|
+			result_score[i] = v
+			i += 1
+		}
 
-    possible_times.each { |k,v|
-      p = PossibleDate.where(:event_id => e.event_id,:user_id => e.user_id,:event_date_id => k).last
-      if p.nil?
-        PossibleDate.create(:event_id => e.event_id,:user_id => e.user_id,:event_date_id => k,:possible_time => v)
-      else
-        p.update_attribute(:possible_time, v )
-      end
-      #puts YAML::dump(p)
-    }
-    render json: params()
+		result = JSON.generate({event_id: e.event.id, data: result_score})
+		WebsocketRails[:schedule].trigger 'update',  result
 
-    # Prepare data and broadcast it via Websocket!
-    #r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_i
-    #c = IDEALDATES.length
-    #d = []
-    #r.times do |i|
-    #d << (1..c).map{rand(0..10)}
-    #end
-    #d = (1..r*c).map{rand(0..10)}
-    #result = JSON.generate({rows: r, cols: c, data: d})
-    #WebsocketRails[:newTimes].trigger 'update',  result
-    #render "scheduler/main"
+		render json: params()
 
-  end
+	end
 
-  def postNewTimes
-    # process data
+	#def postNewTimes
+		# process data
 
-    # Prepare data and broadcast it via Websocket!
-    r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_i
-    c = IDEALDATES.length
-    d = []
-    r.times do |i|
-      d << (1..c).map{rand(0..10)}
-    end
-    #d = (1..r*c).map{rand(0..10)}
-    result = JSON.generate({rows: r, cols: c, data: d})
-    WebsocketRails[:newTimes].trigger 'update',  result
-  end
+		# Prepare data and broadcast it via Websocket!
+		#r = ((IDEALENDTIME - IDEALSTARTTIME) * 2).to_i
+		#c = IDEALDATES.length
+		#d = []
+		#r.times do |i|
+			#d << (1..c).map{rand(0..10)}
+		#end
+		#d = (1..r*c).map{rand(0..10)}
+		#result = JSON.generate({rows: r, cols: c, data: d})
+		#result = JSON.generate({rows: r, cols: c, data: d})
+		#WebsocketRails[:newTimes].trigger 'update',  result
+	#end
 
 end

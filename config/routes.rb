@@ -1,4 +1,5 @@
 MeetupApi::Application.routes.draw do
+  root to: 'scheduler#respondToToken'
 
   match 'auth/get_token', to: 'auth#get_token', via: [:post]
   match 'auth/confirm_user', to: 'auth#confirm_user', via: [:post]
@@ -9,8 +10,8 @@ MeetupApi::Application.routes.draw do
 
   match 'scheduler', to: 'scheduler#respondToToken'
 
-  #match 'newTime' => 'scheduler#postNewTimes'
-  post 'newTime' => 'scheduler#newTimes'
+  #post 'newTime' => 'scheduler#newTimes'
+  post 'newTime' => 'scheduler#post_possible_times'
 
 
   match 'searchs/event_detail', to: 'searchs#event_detail', via: [:post]
@@ -19,6 +20,7 @@ MeetupApi::Application.routes.draw do
   resources :events do
     member do
       post 'update_possible_dates'
+      get 'participants'
     end
     collection do
       get 'schedule'
