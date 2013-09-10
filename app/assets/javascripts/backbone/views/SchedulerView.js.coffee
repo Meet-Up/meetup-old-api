@@ -24,7 +24,7 @@ class MeetupApi.SchedulerView extends Backbone.View
 
   render: ->
     @collection.each (eventDate) =>
-      console.log ''
+      $('#dates').append $('<div />').addClass("span#{@widthSpan}").text(eventDate.getShortDate())
     for y in [@startRow..@endRow]
       @addRow y
 

@@ -24,6 +24,10 @@ class MeetupApi.EventDate extends Backbone.RelationalModel
       @get('possible_dates').add possible_date
     possible_dates.first()
 
+  getShortDate: () ->
+    start = @get 'start'
+    start.toString 'MM/dd'
+
 
 MeetupApi.EventDate.setup()
 
