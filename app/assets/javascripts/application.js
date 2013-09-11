@@ -18,4 +18,3 @@
 //= require backbone
 //= require backbone-relational
 //= require backbone/meetup_api
-//= require_tree .
