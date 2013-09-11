@@ -17,9 +17,9 @@ class User < ActiveRecord::Base
 
   def self.participants(event_id)
     users = User.includes(:possible_dates)
-        .joins(:events)
-        .where('events.id', event_id)
-        .uniq
+                .joins(:events)
+                .where('events.id', event_id)
+                .uniq
     # FIXME: fix this horror with a left outer join or something
     users.each { |u| u.possible_dates.select! { |p| p.event_id == event_id } }
   end

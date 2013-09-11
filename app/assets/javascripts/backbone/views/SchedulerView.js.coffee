@@ -1,8 +1,8 @@
 class MeetupApi.SchedulerView extends Backbone.View
   el: 'body'
 
+  isActivated: false
   isSelecting: false
-  newSelection: false
 
   dragStartPoint:
     x: -1
@@ -70,33 +70,28 @@ class MeetupApi.SchedulerView extends Backbone.View
     $.nearest({x: x, y: y}, 'div.cell')
 
   onStart: (e, x, y, isSelected) ->
-    return if @isSelecting
+    return if @isActivated
     @dragStartPoint.x = x
     @dragStartPoint.y = y
-    @isSelecting = true
-    @newSelection = !isSelected
+    @isActivated = true
+    @isSelecting = !isSelected
+    @onMove e, x, y
 
   onMove: (e, x, y) ->
-    return unless @isSelecting
-    startX = Math.min(x, @dragStartPoint.x)
-    startY = Math.min(y, @dragStartPoint.y)
-    endX = Math.max(x, @dragStartPoint.x)
-    endY = Math.max(y, @dragStartPoint.y)
-
-    timeValue = if @newSelection then "1" else "0"
-
-    for column in [startX..endX]
+    return unless @isActivated
+    timeValue = if @isSelecting then "1" else "0"
+    for column in [x..@dragStartPoint.x]
       possible_date = @collection.at(column).getPossibleDate()
       possible_times = possible_date.get('possible_time').split ''
-      for row in [startY..endY]
+      for row in [y..@dragStartPoint.y]
         possible_times[row] = timeValue
       possible_date.set 'possible_time', possible_times.join('')
 
   onEnd: (e) ->
-    return unless @isSelecting
-    @isSelecting = false
+    return unless @isActivated
+    @isActivated = false
+    clearTimeout @hideSuccessTimeout if @hideSuccessTimeout?
     @collection.trigger 'needsSavePossibleDates', success: () =>
       @$('.saved').css 'visibility', 'visible'
-      setTimeout () =>
-        @$('.saved').css('visibility', 'hidden')
-      , 3000
+      hideSuccess = () => @$('.saved').css 'visibility', 'hidden'
+      @hideSuccessTimeout = setTimeout hideSuccess, 3000
