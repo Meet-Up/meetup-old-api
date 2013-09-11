@@ -17,12 +17,13 @@ class MeetupApi.EventDate extends Backbone.RelationalModel
     response
 
   getPossibleDate: () ->
-    possible_dates = @get 'possible_dates'
-    if possible_dates.length == 0
+    possible_date = @get('possible_dates').find (date) ->
+      date.get('user_id') == App.user.get('id')
+    unless possible_date?
       possible_date = new MeetupApi.PossibleDate
         event_date_id: @get 'id'
       @get('possible_dates').add possible_date
-    possible_dates.first()
+    possible_date
 
   getShortDate: () ->
     start = @get 'start'

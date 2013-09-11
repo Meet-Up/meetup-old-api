@@ -57,7 +57,7 @@ class EventsController < ApplicationController
     event_token = EventToken.find_by_token(params[:token])
     @event = event_token.event
     @user = event_token.user
-    @event_dates = @event.event_dates.includes(:possible_dates).where('possible_dates.user_id', event_token.user.id)
+    @event_dates = @event.event_dates.includes(:possible_dates)
   end
 
   def participants
