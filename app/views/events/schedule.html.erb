@@ -2,6 +2,7 @@
   <script>
     window.App = window.App || {};
     App.eventContent = <%= @event.to_json.html_safe %>;
+    App.user = <%= @user.to_json.html_safe %>;
     App.eventDates = <%= @event_dates.to_json(include: :possible_dates).html_safe %>;
   </script>
 

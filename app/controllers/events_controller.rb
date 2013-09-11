@@ -56,12 +56,13 @@ class EventsController < ApplicationController
   def schedule
     event_token = EventToken.find_by_token(params[:token])
     @event = event_token.event
+    @user = event_token.user
     @event_dates = @event.event_dates.includes(:possible_dates).where('possible_dates.user_id', event_token.user.id)
   end
 
   def participants
     @event = Event.find(params[:id])
     @participants = User.participants(@event.id)
-    render json: @participants.to_json(include: :possible_dates, except: :token)
+    render json: @participants.as_json(include: :possible_dates)
   end
 end

@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
 
   TOKEN_LENGTH = 20
 
+  def as_json(options)
+    super( {except: :token }.merge(options))
+  end
+
   def refresh_token
     self.token = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
   end

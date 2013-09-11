@@ -1,7 +1,6 @@
 class Scheduler
   webSocketPath: 'localhost:3000/websocket'
 
-
   constructor: (eventContent, eventDates) ->
     @event = new MeetupApi.Event eventContent
     @eventDates = new MeetupApi.EventDateCollection eventDates, parse: true
