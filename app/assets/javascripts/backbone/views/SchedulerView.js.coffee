@@ -1,6 +1,4 @@
 class MeetupApi.SchedulerView extends MeetupApi.CalendarWeekView
-  el: 'body'
-
   isActivated: false
   isSelecting: false
 

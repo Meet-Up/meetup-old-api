@@ -5,7 +5,10 @@ class Scheduler
     @event = new MeetupApi.Event eventContent
     @eventDates = new MeetupApi.EventDateCollection eventDates, parse: true
     @event.setEventDates @eventDates
-    @schedulerView = new MeetupApi.SchedulerView({ collection: @eventDates })
+    @schedulerView = new MeetupApi.SchedulerView(
+      collection: @eventDates
+      el: '#scheduler'
+    )
     @heatMapView = new MeetupApi.HeatMapView()
 
     @initWSConnection()
