@@ -16,11 +16,25 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'spork-rails', github: 'sporkrb/spork-rails'
+  gem 'guard-spork'
+  gem 'childprocess'
 end
 
 group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
+end
+
+group :linux do
+  gem 'rb-inotify'
+  gem 'libnotify'
+end
+
+group :macos do
+  gem 'rb-fsevent', :require => false
+  gem 'growl'
 end
 
 gem 'jquery-rails'
