@@ -5,6 +5,6 @@ class ApplicationController < ActionController::Base
   def auth_user!
     token = params[:token]
     @user = User.find_by_token(token)
-    redirect_to scheduler_path if token.nil? || @user.nil?
+    redirect_to root_path if token.nil? || @user.nil?
   end
 end

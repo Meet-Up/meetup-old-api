@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :events, through: :event_users
   has_many :possible_dates
   has_many :created_events, class_name: 'Event', foreign_key: 'creator_id'
-  attr_accessible :name, :email
+  attr_accessible :email
 
   TOKEN_LENGTH = 20
 
