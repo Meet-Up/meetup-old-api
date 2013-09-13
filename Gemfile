@@ -14,6 +14,15 @@ group :assets do
   gem 'handlebars_assets'
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+end
+
+group :test do
+  gem 'selenium-webdriver'
+  gem 'capybara'
+end
+
 gem 'jquery-rails'
 
 gem 'websocket-rails'
