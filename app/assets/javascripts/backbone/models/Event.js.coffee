@@ -15,8 +15,7 @@ class MeetupApi.Event extends Backbone.RelationalModel
         possibleDate.set possibleDateObj
       else
         possibleDate = new MeetupApi.PossibleDate(possibleDate)
-      possibleDates.set possibleDate
-
+      possibleDates.set possibleDate, remove: false
 
   savePossibleDates: (options) ->
     new MeetupApi.BasicSaver(

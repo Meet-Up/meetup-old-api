@@ -10,11 +10,8 @@ class MeetupApi.HeatMapCellView extends MeetupApi.CellView
     @setOpacity()
 
   setOpacity: ->
-    totalParticipations = @collection.length
     acceptedParticipations = 0
     @collection.each (possibleDate) =>
       accepted = possibleDate.get('possible_time')[@options.y]
       acceptedParticipations += 1 if accepted == "1"
-    @$el.css 'opacity', acceptedParticipations / totalParticipations
-
-
+    @$el.css 'opacity', acceptedParticipations / @options.totalParticipants

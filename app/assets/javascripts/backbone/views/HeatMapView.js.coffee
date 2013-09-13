@@ -6,5 +6,6 @@ class MeetupApi.HeatMapView extends MeetupApi.CalendarWeekView
 
   createCell: (options) ->
     options.collection = options.eventDate.get 'possible_dates'
+    options.totalParticipants = @options.totalParticipants
     cell = new MeetupApi.HeatMapCellView(options)
     cell
