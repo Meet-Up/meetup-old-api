@@ -9,7 +9,11 @@ class Event < ActiveRecord::Base
 	attr_accessible :description, :name , :event_dates_attributes
 	accepts_nested_attributes_for :event_dates
 
+	def participants_number
+		self.users.uniq.count
+	end
+
 	def as_json(option={})
-		super(:include => [:event_dates, creator: {only: :username, methods: :username}])
+		super(include: [:event_dates, creator: {only: :username, methods: :username}], methods: :participants_number)
 	end
 end

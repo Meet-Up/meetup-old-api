@@ -7,9 +7,12 @@
 </head>
 <body>
 
-<%= yield %>
+<div class="container">
+  <%= yield %>
+</div>
 
 <%= javascript_include_tag "application" %>
+<%= yield :javascript_includes %>
 
 </body>
 </html>
