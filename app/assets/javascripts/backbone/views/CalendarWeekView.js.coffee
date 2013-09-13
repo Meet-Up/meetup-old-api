@@ -1,5 +1,4 @@
 class MeetupApi.CalendarWeekView extends Backbone.View
-
   initialize: (@options) ->
     @startRow = @collection.startRow()
     @endRow = @collection.endRow()
@@ -12,6 +11,7 @@ class MeetupApi.CalendarWeekView extends Backbone.View
     @render()
 
   render: ->
+    @cells = []
     @$el.html @template()
     @collection.each (eventDate) =>
       @$('.dates').append $('<div />').addClass("span#{@widthSpan}").text(eventDate.getShortDate())
@@ -27,13 +27,13 @@ class MeetupApi.CalendarWeekView extends Backbone.View
     @$('.calendar').append container
 
   addOne: (eventDate, x, y, container) ->
-    possibleDate = eventDate.getPossibleDate()
     cellView = @createCell
-      model: possibleDate
+      eventDate: eventDate
       x: x
       y: y
       height: @height
       widthSpan: @widthSpan
+    @cells.push cellView
     container.append cellView.render().el
 
   addTimeCell: (position, height) ->

@@ -15,6 +15,7 @@ class MeetupApi.SchedulerView extends MeetupApi.CalendarWeekView
     super @options
 
   createCell: (options) ->
+    options.model = options.eventDate.getPossibleDate()
     cell = new MeetupApi.DynamicCellView(options)
     cell.on 'start', @onStart, this
     cell.on 'move', @onMove, this

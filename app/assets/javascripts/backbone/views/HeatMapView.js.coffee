@@ -4,10 +4,7 @@ class MeetupApi.HeatMapView extends MeetupApi.CalendarWeekView
   initialize: (@options) ->
     super @options
 
-  handleUpdate: (data) ->
-    console.log data
-
   createCell: (options) ->
+    options.collection = options.eventDate.get 'possible_dates'
     cell = new MeetupApi.HeatMapCellView(options)
     cell
-

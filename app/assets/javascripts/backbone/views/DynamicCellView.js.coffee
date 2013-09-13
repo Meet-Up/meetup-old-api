@@ -1,5 +1,5 @@
 class MeetupApi.DynamicCellView extends MeetupApi.CellView
-  attributes: () ->
+  attributes: ->
     attrs = super
     attrs['class'] += if @isSelected() then " selected" else " unselected"
     attrs
@@ -15,10 +15,10 @@ class MeetupApi.DynamicCellView extends MeetupApi.CellView
     super options
     @model.on 'change', @updateCss, this
 
-  isSelected: () ->
+  isSelected: ->
     @model.get('possible_time')[@options.y] == "1"
 
-  updateCss: () ->
+  updateCss: ->
     if @isSelected()
       @$el.removeClass('unselected')
       @$el.addClass('selected')

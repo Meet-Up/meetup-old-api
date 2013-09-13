@@ -16,7 +16,7 @@ class MeetupApi.EventDate extends Backbone.RelationalModel
     response.end = new Date(response.end * 1000)
     response
 
-  getPossibleDate: () ->
+  getPossibleDate: ->
     possible_date = @get('possible_dates').find (date) ->
       date.get('user_id') == App.user.get('id')
     unless possible_date?
@@ -25,7 +25,7 @@ class MeetupApi.EventDate extends Backbone.RelationalModel
       @get('possible_dates').add possible_date
     possible_date
 
-  getShortDate: () ->
+  getShortDate: ->
     start = @get 'start'
     start.toString 'MM/dd'
 
@@ -35,32 +35,32 @@ MeetupApi.EventDate.setup()
 class MeetupApi.EventDateCollection extends Backbone.Collection
   model: MeetupApi.EventDate
 
-  getNeededColumns: () ->
+  getNeededColumns: ->
     @length
 
-  startRow: () ->
+  startRow: ->
     startTime = @getFastestTime()
     startTime.getHours() * 2 + (startTime.getMinutes() == 30)
 
-  endRow: () ->
+  endRow: ->
     endTime = @getLatestTime()
     endTime.getHours() * 2 + (endTime.getMinutes() == 30)
 
-  getFastestTime: () ->
+  getFastestTime: ->
     minEventDate = @min (eventDate) ->
       startDate = eventDate.get 'start'
       new Date(1970, 1, 1, startDate.getHours(), startDate.getMinutes(), 0, 0)
     date = minEventDate.get 'start'
     new Date(1970, 1, 1, date.getHours(), date.getMinutes(), 0, 0)
 
-  getLatestTime: () ->
+  getLatestTime: ->
     maxEventDate = @max (eventDate) ->
       endDate = eventDate.get 'end'
       new Date(1970, 1, 1, endDate.getHours(), endDate.getMinutes(), 0, 0)
     date = maxEventDate.get 'end'
     new Date(1970, 1, 1, date.getHours(), date.getMinutes(), 0, 0)
 
-  getPossibleDates: () ->
+  getPossibleDates: ->
     new MeetupApi.PossibleDateCollection(@map (eventDate) ->
       eventDate.getPossibleDate()
     )

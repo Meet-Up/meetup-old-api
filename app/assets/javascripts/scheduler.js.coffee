@@ -23,7 +23,6 @@ class Scheduler
   initWSConnection: () ->
     @dispatcher = new WebSocketRails(@webSocketPath)
     @channel = @dispatcher.subscribe("event-#{@event.get 'id'}");
-    @channel.bind 'update', @heatMapView.handleUpdate
-
+    @channel.bind 'update', @event.updatePossibleDates
 
 new Scheduler App.eventContent, App.eventDates
