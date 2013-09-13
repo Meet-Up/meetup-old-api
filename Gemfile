@@ -37,6 +37,8 @@ group :macos do
   gem 'growl'
 end
 
+gem 'coveralls', require: false
+
 gem 'jquery-rails'
 
 gem 'websocket-rails'
