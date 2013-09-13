@@ -11,7 +11,7 @@ class Scheduler
     )
     @heatMapView = new MeetupApi.HeatMapView(
       collection: @eventDates
-      totalParticipants: @event.get 'participants_number'
+      model: @event
       el: '#heat-map'
     )
 

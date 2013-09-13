@@ -6,7 +6,9 @@ class MeetupApi.Event extends Backbone.RelationalModel
     @set 'eventDates', eventDates
     eventDates.on 'needsSavePossibleDates', @savePossibleDates, this
 
-  updatePossibleDates: (newPossibleDates) ->
+  updatePossibleDates: (data) ->
+    @set 'participants_number', data.participants_number
+    newPossibleDates = data.saved_dates
     _.each newPossibleDates, (possibleDateObj) =>
       eventDate = @get('eventDates').get possibleDateObj.event_date_id
       possibleDates = eventDate.get 'possible_dates'

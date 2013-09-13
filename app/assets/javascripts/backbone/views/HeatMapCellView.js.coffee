@@ -14,4 +14,4 @@ class MeetupApi.HeatMapCellView extends MeetupApi.CellView
     @collection.each (possibleDate) =>
       accepted = possibleDate.get('possible_time')[@options.y]
       acceptedParticipations += 1 if accepted == "1"
-    @$el.css 'opacity', acceptedParticipations / @options.totalParticipants
+    @$el.css 'opacity', acceptedParticipations / @model.get('participants_number')

@@ -48,7 +48,7 @@ class EventsController < ApplicationController
     unless event_token.nil? || possible_dates.nil? || event_token.event.id != params[:id].to_i
       event = event_token.event
       saved_dates = PossibleDate.save_for_token event_token, possible_dates
-      WebsocketRails["event-#{event.id}"].trigger 'update', saved_dates
+      WebsocketRails["event-#{event.id}"].trigger 'update', { save_dates: saved_dates, participants_number: event.participants_number }
       render json: saved_dates
     else
       render json: { errors: 'wrong parameters' }
