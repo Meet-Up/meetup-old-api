@@ -53,7 +53,6 @@ class MeetupApi.EventDateCollection extends Backbone.Collection
     date = minEventDate.get 'start'
     new Date(1970, 1, 1, date.getHours(), date.getMinutes(), 0, 0)
 
-
   getLatestTime: () ->
     maxEventDate = @max (eventDate) ->
       endDate = eventDate.get 'end'

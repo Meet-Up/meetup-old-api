@@ -1,5 +1,5 @@
 class MeetupApi.CalendarWeekView extends Backbone.View
-  template: JST["backbone/templates/calendar"]
+  template: JST["backbone/templates/scheduler"]
 
   initialize: (@options) ->
     @startRow = @collection.startRow()
@@ -13,7 +13,7 @@ class MeetupApi.CalendarWeekView extends Backbone.View
     @render()
 
   render: ->
-    @$('.calendar').html @template()
+    @$el.html @template()
     @collection.each (eventDate) =>
       $('#dates').append $('<div />').addClass("span#{@widthSpan}").text(eventDate.getShortDate())
     for y in [@startRow..@endRow]
