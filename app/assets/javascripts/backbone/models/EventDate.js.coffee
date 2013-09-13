@@ -22,6 +22,7 @@ class MeetupApi.EventDate extends Backbone.RelationalModel
     unless possible_date?
       possible_date = new MeetupApi.PossibleDate
         event_date_id: @get 'id'
+        user_id: App.user.get('id')
       @get('possible_dates').add possible_date
     possible_date
 
