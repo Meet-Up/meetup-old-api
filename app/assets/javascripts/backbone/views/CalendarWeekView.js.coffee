@@ -1,5 +1,4 @@
 class MeetupApi.CalendarWeekView extends Backbone.View
-  template: JST["backbone/templates/scheduler"]
 
   initialize: (@options) ->
     @startRow = @collection.startRow()
@@ -15,7 +14,7 @@ class MeetupApi.CalendarWeekView extends Backbone.View
   render: ->
     @$el.html @template()
     @collection.each (eventDate) =>
-      $('#dates').append $('<div />').addClass("span#{@widthSpan}").text(eventDate.getShortDate())
+      @$('.dates').append $('<div />').addClass("span#{@widthSpan}").text(eventDate.getShortDate())
     for y in [@startRow..@endRow]
       @addRow y
     return this
@@ -25,7 +24,7 @@ class MeetupApi.CalendarWeekView extends Backbone.View
     container = $('<div />').attr('class', 'row-fluid')
     @collection.each (eventDate, x) =>
       @addOne eventDate, x, y, container
-    @$('#schedule').append container
+    @$('.calendar').append container
 
   addOne: (eventDate, x, y, container) ->
     possibleDate = eventDate.getPossibleDate()
@@ -41,8 +40,4 @@ class MeetupApi.CalendarWeekView extends Backbone.View
     minutes = if position % 2 == 0 then 0 else 30
     time = Date.today().set({hour: Math.floor(position / 2), minute: minutes })
     $timeCell = $('<div />').height(@height).text(time.toString 'HH:mm')
-    @$('#time').append $timeCell
-
-  createCell: (options) ->
-    cell = new MeetupApi.CellView(options)
-    cell
+    @$('.time').append $timeCell

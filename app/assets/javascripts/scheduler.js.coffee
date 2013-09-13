@@ -9,7 +9,10 @@ class Scheduler
       collection: @eventDates
       el: '#scheduler'
     )
-    @heatMapView = new MeetupApi.HeatMapView()
+    @heatMapView = new MeetupApi.HeatMapView(
+      collection: @eventDates
+      el: '#heat-map'
+    )
 
     @initWSConnection()
     @initView()

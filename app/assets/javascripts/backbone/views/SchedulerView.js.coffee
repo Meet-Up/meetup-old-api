@@ -1,4 +1,6 @@
 class MeetupApi.SchedulerView extends MeetupApi.CalendarWeekView
+  template: JST["backbone/templates/schedule/scheduler"]
+
   isActivated: false
   isSelecting: false
 
@@ -13,7 +15,7 @@ class MeetupApi.SchedulerView extends MeetupApi.CalendarWeekView
     super @options
 
   createCell: (options) ->
-    cell = new MeetupApi.CellView(options)
+    cell = new MeetupApi.DynamicCellView(options)
     cell.on 'start', @onStart, this
     cell.on 'move', @onMove, this
     cell.on 'end', @onEnd, this
