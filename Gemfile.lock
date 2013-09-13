@@ -47,6 +47,7 @@ GEM
     delayed_job_active_record (0.4.4)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
+    ejs (1.1.1)
     em-synchrony (1.0.3)
       eventmachine (>= 1.0.0.beta.1)
     erubis (2.7.0)
@@ -55,6 +56,10 @@ GEM
     faye-websocket (0.6.3)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.2.0)
+    handlebars_assets (0.14.1)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hike (1.2.3)
     hiredis (0.4.5)
     i18n (0.6.1)
@@ -119,6 +124,7 @@ GEM
     uglifier (2.2.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    underscore (0.0.0)
     websocket-driver (0.2.3)
     websocket-rails (0.4.9)
       em-synchrony
@@ -137,10 +143,13 @@ DEPENDENCIES
   backbone-relational-rails
   coffee-rails (~> 3.2.1)
   delayed_job_active_record
+  ejs
+  handlebars_assets
   jquery-rails
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)
   sqlite3
   thin
   uglifier (>= 1.0.3)
+  underscore
   websocket-rails

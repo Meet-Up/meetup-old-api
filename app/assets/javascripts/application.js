@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require_tree ./libs
 //= require websocket_rails/main
+//= require handlebars.runtime
 //= require underscore
 //= require backbone
 //= require backbone-relational
