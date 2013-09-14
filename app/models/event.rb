@@ -13,6 +13,12 @@ class Event < ActiveRecord::Base
     self.users.uniq.count
   end
 
+  def participants
+    User.includes(:possible_dates)
+        .where('possible_dates.event_id' => self.id)
+        .uniq
+  end
+
   def as_json(option={})
     super(include: [:event_dates, creator: {only: :username, methods: :username}], methods: :participants_number)
   end

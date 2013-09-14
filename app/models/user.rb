@@ -22,10 +22,4 @@ class User < ActiveRecord::Base
   def username
     self.email.split('@')[0]
   end
-
-  def self.participants(event_id)
-    User.includes(:possible_dates)
-        .where('possible_dates.event_id' => event_id)
-        .uniq
-  end
 end
