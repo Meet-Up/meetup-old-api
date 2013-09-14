@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
     super( {except: :token }.merge(options))
   end
 
+  def get_possible_dates(event_id)
+    self.possible_dates.where(event_id: event_id)
+  end
+
   def refresh_token
     self.token = SecureRandom.urlsafe_base64(TOKEN_LENGTH, false)
   end
@@ -20,11 +24,8 @@ class User < ActiveRecord::Base
   end
 
   def self.participants(event_id)
-    users = User.includes(:possible_dates)
-                .joins(:events)
-                .where('events.id', event_id)
-                .uniq
-    # FIXME: fix this horror with a left outer join or something
-    users.each { |u| u.possible_dates.select! { |p| p.event_id == event_id } }
+    User.includes(:possible_dates)
+        .where('possible_dates.event_id' => event_id)
+        .uniq
   end
 end

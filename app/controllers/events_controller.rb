@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_filter :auth_user!, only: [:create]
 
   def index
-    @event = Event.includes([:creator, :event_dates])
+    @event = Event.includes([:creator, :event_dates, :users])
     render json: @event
   end
 
