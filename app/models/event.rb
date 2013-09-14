@@ -19,7 +19,10 @@ class Event < ActiveRecord::Base
         .uniq
   end
 
-  def as_json(option={})
-    super(include: [:event_dates, creator: {only: :username, methods: :username}], methods: :participants_number)
+  def as_json(options={})
+    super( {
+      include: [:event_dates, creator: {only: :username, methods: :username}],
+      methods: :participants_number
+    }.merge(options))
   end
 end

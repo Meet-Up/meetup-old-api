@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
 
   TOKEN_LENGTH = 20
 
-  def as_json(options)
-    super( {except: :token }.merge(options))
+  def as_json(options={})
+    super( { except: :token }.merge(options))
   end
 
   def get_possible_dates(event_id)
