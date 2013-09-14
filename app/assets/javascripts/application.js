@@ -12,6 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require_tree ./libs
 //= require websocket_rails/main
-//= require_tree .
-
+//= require handlebars.runtime
+//= require underscore
+//= require backbone
+//= require backbone-relational
+//= require backbone/meetup_api

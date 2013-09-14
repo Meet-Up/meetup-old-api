@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body {
+  font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif
+}
+
 .date_label{
 	font-size:45px;
 	display:inline-block;
@@ -14,9 +18,32 @@
 .time_label{
 	font-size:40px;
 	display: block
-
 }
 
-body{color: #555;
-	font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif
+
+.saved {
+  visibility: hidden;
+  font-size: 28pt;
+}
+
+.cell {
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+}
+
+.no-space [class*="span"] {
+    margin-left: 0;
+}
+
+.selected {
+  background-color: #339933
+}
+
+.unselected {
+  background-color: #DCDDDD;
+}
+
+#time div {
+  padding-top: 50%;
+  margin-bottom: -50%;
 }
