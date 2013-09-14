@@ -12,7 +12,7 @@ class AuthController < ApplicationController
   		render json: { error: 'pin code error'}
   	else
   		@user = auth.create_user
-  		render json: { user: @user }
+  		render json: { user: @user.as_json(except: []) }
   	end
   end
 
