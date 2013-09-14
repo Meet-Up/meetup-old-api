@@ -13,9 +13,15 @@ class Event < ActiveRecord::Base
     self.users.uniq.count
   end
 
+  # FIXME: raw SQL could probably be avoided
   def participants
-    User.includes(:possible_dates)
-        .where('possible_dates.event_id' => self.id)
+    User.joins(:event_users)
+        .where('event_users.event_id' => self.id)
+        .includes(:possible_dates)
+        .joins("LEFT OUTER JOIN possible_dates
+                ON possible_dates.user_id = users.id
+                AND possible_dates.event_id = #{ActiveRecord::Base.sanitize(self.id)}"
+        )
         .uniq
   end
 
