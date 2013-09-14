@@ -30,9 +30,9 @@ class EventsController < ApplicationController
 
         end
       end
-      render json:  @event
+      render json: @event
     else
-      render :json  => @event.errors
+      render json: @event.errors
     end
   end
 

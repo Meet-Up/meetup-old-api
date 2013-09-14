@@ -1,7 +1,8 @@
 class Event < ActiveRecord::Base
   belongs_to :creator, class_name: 'User'
   has_many :event_dates
-  has_many :event_users
+  has_many :invitations
+  has_many :invited_users, through: :invitations
   has_many :event_token
   has_many :possible_dates
   has_many :users, through: :possible_dates
@@ -15,8 +16,8 @@ class Event < ActiveRecord::Base
 
   # FIXME: raw SQL could probably be avoided
   def participants
-    User.joins(:event_users)
-        .where('event_users.event_id' => self.id)
+    User.joins(:invitations)
+        .where('invitations.event_id' => self.id)
         .includes(:possible_dates)
         .joins("LEFT OUTER JOIN possible_dates
                 ON possible_dates.user_id = users.id
