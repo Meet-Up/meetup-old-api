@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :event_users
-  has_many :events, through: :event_users
+  has_many :invitations
+  has_many :events, through: :invitations
   has_many :possible_dates
   has_many :created_events, class_name: 'Event', foreign_key: 'creator_id'
   attr_accessible :email
