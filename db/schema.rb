@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130904154545) do
+ActiveRecord::Schema.define(:version => 20130916050116) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -29,6 +29,13 @@ ActiveRecord::Schema.define(:version => 20130904154545) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "email_addresses", :force => true do |t|
+    t.string   "email"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "event_dates", :force => true do |t|
     t.integer  "event_id"
     t.datetime "start"
@@ -45,19 +52,26 @@ ActiveRecord::Schema.define(:version => 20130904154545) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "event_users", :force => true do |t|
-    t.integer  "event_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "events", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "creator_id"
+  end
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "phone_numbers", :force => true do |t|
+    t.string   "phone_number"
+    t.integer  "user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "possible_dates", :force => true do |t|
@@ -71,7 +85,7 @@ ActiveRecord::Schema.define(:version => 20130904154545) do
 
   create_table "tmp_auths", :force => true do |t|
     t.string   "email"
-    t.integer  "pin"
+    t.string   "pin"
     t.string   "token"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
