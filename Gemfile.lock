@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/james2m/seedbank.git
+  revision: c7a272751336f0d17103028f45b88eac62cbedd7
+  specs:
+    seedbank (0.3.0.pre2)
+
+GIT
   remote: git://github.com/sporkrb/spork-rails.git
   revision: 3224f84d8c31fcb0894e9a43f6c3ac67e3aa0d71
   specs:
@@ -251,6 +257,7 @@ DEPENDENCIES
   rb-inotify
   rspec-rails
   sass-rails (~> 3.2.3)
+  seedbank!
   selenium-webdriver
   spork-rails!
   sqlite3

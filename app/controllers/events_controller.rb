@@ -60,6 +60,7 @@ class EventsController < ApplicationController
     @event = event_token.event
     @user = event_token.user
     @event_dates = @event.event_dates.includes(:possible_dates)
+    puts @event_dates
   end
 
   def participants

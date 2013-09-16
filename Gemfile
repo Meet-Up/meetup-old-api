@@ -39,6 +39,8 @@ end
 
 gem 'coveralls', require: false
 
+gem 'seedbank', github: 'james2m/seedbank'
+
 gem 'jquery-rails'
 
 gem 'websocket-rails'
