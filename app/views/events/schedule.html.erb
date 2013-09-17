@@ -10,22 +10,32 @@
   <%= javascript_include_tag "scheduler_style" %>
 <% end %>
 
-	<header>
-		<div id="header-logo">
-			<%= image_tag "logo.png", alt: "MeetUp" %>
-		</div>
-		<div id="header-icon">
-			<img id="icon-create" src="img/icon-create.png" alt="MeetUp">
-		</div>
-	</header>
+<header>
+  <div id="header-logo">
+    <%= image_tag "logo.png", alt: "MeetUp" %>
+  </div>
+  <div id="header-icon">
+    <%= image_tag "icon-create.png", alt: "MeetUp" %>
+  </div>
+</header>
 
-<div id="title" class="row-fluid">
-  <h1 class="text-center"></h1>
+<div class="wrapper">
+  <div class="event-info">
+  </div>
+  <div class="notches">
+  </div>
+  <div class="input-area">
+    <div id="title" class="row-fluid">
+      <h1 class="text-center"></h1>
+    </div>
+
+    <div id="scheduler">
+    </div>
+
+    <div id="heat-map">
+    </div>
+  </div>
 </div>
 
-<div id="scheduler">
-</div>
 
-<div id="heat-map">
-</div>
 

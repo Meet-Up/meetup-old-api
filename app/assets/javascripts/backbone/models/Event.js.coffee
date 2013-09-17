@@ -25,3 +25,10 @@ class MeetupApi.Event extends Backbone.RelationalModel
       value: @get('eventDates').getPossibleDates()
       url: "/events/" + @get('id') + "/update_possible_dates"
     ).save options
+
+  toJSON: ->
+    attributes = super
+    # FIXME: use real data
+    attributes.totalHours = 3
+    attributes
+

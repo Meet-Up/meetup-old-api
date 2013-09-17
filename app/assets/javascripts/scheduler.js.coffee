@@ -15,11 +15,9 @@ class Scheduler
       el: '#heat-map'
     )
 
-    @initWSConnection()
-    @initView()
+    @titleView = new MeetupApi.EventInfoView({ model: @event })
 
-  initView: () ->
-    $('#title > h1').text @event.get('name')
+    @initWSConnection()
 
   initWSConnection: () ->
     @dispatcher = new WebSocketRails(@webSocketPath)
