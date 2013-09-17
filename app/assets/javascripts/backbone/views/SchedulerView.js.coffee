@@ -9,7 +9,7 @@ class MeetupApi.SchedulerView extends MeetupApi.CalendarWeekView
     y: -1
 
   events:
-    'touchmove #schedule': 'handleTouchMove'
+    'touchmove .calendar': 'handleTouchMove'
 
   initialize: (@options) ->
     super @options

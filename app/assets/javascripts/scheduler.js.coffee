@@ -15,6 +15,7 @@ class Scheduler
       el: '#heat-map'
     )
 
+    @titleBarView = new MeetupApi.TitleBarView()
     @titleView = new MeetupApi.EventInfoView({ model: @event })
 
     @initWSConnection()
