@@ -11,29 +11,28 @@
 
 <header id="title-bar">
   <div id="header-logo">
-    <%= image_tag "logo.png", alt: "MeetUp" %>
+    <a href=""><%= image_tag "logo.png", alt: "MeetUp" %></a>
   </div>
   <div id="header-icon">
-    <%= image_tag "icon-create.png", alt: "MeetUp" %>
+    <a href=""><%= image_tag "icon-create.png", alt: "MeetUp" %></a>
   </div>
 </header>
 
 <div class="wrapper">
   <div class="event-info">
+    <h1 class="event-title"></h1>
+    <h2 class="event-time"></h2>
+    <p class="event-description"></p>
   </div>
   <div class="notches">
   </div>
   <div class="input-area">
-    <div id="title" class="row-fluid">
-      <h1 class="text-center"></h1>
-    </div>
-
+    <%= image_tag "overnavi_left.png", :class=>"overnavi_left", alt: "左へ" %>
+    <%= image_tag "overnavi_right.png", :class=>"overnavi_right", alt: "右へ" %>
     <div id="scheduler">
     </div>
-
     <div id="heat-map">
     </div>
-  </div>
 </div>
 
 

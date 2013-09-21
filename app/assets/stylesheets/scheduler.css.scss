@@ -104,7 +104,7 @@ header {
   color:#666666;
   font-size: 11px;
   line-height: 13px;
-  padding-top:5px;
+  padding-top:0px;
 }
 
 .notches {
@@ -116,4 +116,16 @@ header {
 
 .input-area {
   width:100%;
+  position: relative;
+}
+
+.overnavi_left {
+  position: absolute;
+  left:10px;
+  width:25px;
+}
+.overnavi_right {
+  position: absolute;
+  right:10px;
+  width:25px;
 }
