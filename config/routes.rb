@@ -19,4 +19,5 @@ MeetupApi::Application.routes.draw do
   end
   resources :possible_dates
 
+  match '/*path' => 'application#cors_preflight_check', via: :options
 end
