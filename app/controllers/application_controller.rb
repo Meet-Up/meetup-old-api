@@ -6,7 +6,9 @@ class ApplicationController < ActionController::Base
   def auth_user!
     token = params[:token]
     @user = User.find_by_token(token)
-    redirect_to root_path if token.nil? || @user.nil?
+    if token.nil? || @user.nil?
+      render json: { error: "could not authenticate" }, status: 403
+    end
   end
 
   def cors_preflight_check
