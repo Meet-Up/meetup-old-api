@@ -116,26 +116,24 @@ header {
 
 .tab {
   width:260px;
-  height:20px;
+  height:21px;
   margin: 10px auto;
   background: image-url("tab_off.png")no-repeat;
-  background-size: 260px 20px;
+  background-size: 260px 21px;
   position: relative;
-}
-
-.tab img {
-  width:126px;
-  position: absolute;
-}
-
-.tab img.tab_on_input {
-  top:1px;
-  left:1px;
-  display: none;
-}
-.tab img.tab_on_heatmap {
-  top:1px;
-  right:1px;
+  img {
+    width:128.5px;
+    position: absolute;
+    &.tab_on_input {
+      top:1px;
+      left:1px;
+      display: none;
+    }
+    &.tab_on_heatmap {
+      top:1px;
+      right:1px;
+    }
+  }
 }
 
 .input-area {
