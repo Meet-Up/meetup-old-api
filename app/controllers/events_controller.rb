@@ -4,14 +4,14 @@ class EventsController < ApplicationController
   before_filter :auth_user!, only: [:create]
 
   def index
-    @event = Event.includes([:creator, :event_dates, :users])
+    @event = Event.includes([:creator, :dates, :users])
     render json: @event
   end
 
   def create
     event_param = params[:event]
     users = event_param.delete(:users)
-    event_param[:event_dates_attributes] = event_param.delete(:event_dates) if event_param.has_key? :event_dates
+    event_param[:dates_attributes] = event_param.delete(:dates) if event_param.has_key? :dates
     @event = @user.created_events.build(event_param)
     if @event.save
       unless users.nil?
@@ -59,8 +59,8 @@ class EventsController < ApplicationController
     event_token = EventToken.find_by_token(params[:token])
     @event = event_token.event
     @user = event_token.user
-    @event_dates = @event.event_dates.includes(:possible_dates)
-    puts @event_dates
+    @dates = @event.dates.includes(:possible_dates)
+    puts @dates
   end
 
   def participants
